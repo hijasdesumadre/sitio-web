@@ -1,7 +1,8 @@
 /* =====================================================================
    HIJAS DE SU MADRE — CONFIGURACIÓN DE LA TIENDA
-   Este es el único archivo que hay que tocar para que la tienda funcione.
-   Pega aquí los links de Mercado Pago, cambia precios, nombres y textos.
+   Este es el único archivo que hay que tocar para operar la tienda:
+   precios, envío, códigos de descuento, textos, agotados, test.
+   El cobro lo hace Mercado Pago (token en Netlify → MP_ACCESS_TOKEN).
    ===================================================================== */
 
 window.HDSM = {
@@ -17,8 +18,18 @@ window.HDSM = {
 
   envios: {
     linea: "Enviamos a todo México. 2 a 6 días hábiles.",
-    gratisDesde: 0,                         // ej. 600 → muestra "Envío gratis desde $600". 0 = no se muestra.
-    gratisTexto: "Envío gratis a partir de una caja"
+    costo: 99,                              // costo de envío por pedido (MXN). 0 = envío gratis siempre.
+    gratisDesde: 600                        // envío gratis si el subtotal llega a este monto. 0 = nunca.
+  },
+
+  /* ---------- CÓDIGOS DE DESCUENTO ----------
+     Cualquier código aquí aplica el porcentaje sobre el subtotal (no sobre el envío).
+     Los del test se repiten abajo en "hijas"; mantenlos iguales. */
+  codigos: {
+    SOYUNAMOSCAMUERTA: 10,
+    SOLOTEDOYUNA: 10,
+    MLP: 10,
+    HDSM10: 10
   },
 
   /* ---------- ADVERTENCIAS (con humor) ---------- */
@@ -48,9 +59,7 @@ window.HDSM = {
   },
 
   /* ---------- PRODUCTOS ----------
-     linkPago:          link de Mercado Pago a precio normal.
-     linkPagoDescuento: link de Mercado Pago con el 10% ya aplicado (lo usa el test).
-     Mientras un link esté vacío, el botón avisa "link pendiente" en vez de fallar.
+     agotado: true  → no se puede agregar al carrito.
      imagen: ruta del archivo de foto (ej. "img/chiquilla.jpg"). Vacío = se muestra un cuadro con el nombre.
   */
   productos: [
@@ -61,9 +70,7 @@ window.HDSM = {
       precio: 60,
       descripcion: "Para los que no sabemos viajar sin salsa. Cabe en cualquier maleta y en ninguna conciencia.",
       imagen: "img/prod-chiquilla.webp",
-      escala: 0.62,                          // tamaño relativo al frasco grande (1 = grande)
-      linkPago: "",
-      linkPagoDescuento: ""
+      escala: 0.62                           // tamaño relativo al frasco grande (1 = grande)
     },
     {
       id: "grande",
@@ -72,9 +79,7 @@ window.HDSM = {
       precio: 200,
       descripcion: "La grande. La de la casa, la que siempre se acaba primero.",
       imagen: "img/prod-hijas.webp",
-      escala: 1,
-      linkPago: "",
-      linkPagoDescuento: ""
+      escala: 1
     },
     {
       id: "kit",
@@ -83,9 +88,7 @@ window.HDSM = {
       precio: 0,                             // PENDIENTE: precio
       descripcion: "Para regalar. O para quedártelo; no juzgamos.",
       agotado: true,                         // true = botón "Agotado" en lugar de "Comprar"
-      imagen: "",
-      linkPago: "",
-      linkPagoDescuento: ""
+      imagen: ""
     }
   ],
 

@@ -45,17 +45,12 @@
       "</div>";
   }
 
-  /* ---- Botón de compra (normal o con descuento) ---- */
-  function buyButton(p, discount, extraClass) {
-    var link = discount ? (p.linkPagoDescuento || p.linkPago) : p.linkPago;
-    var label = discount ? "Comprar con 10%" : "Comprar";
-    if (p.agotado) {
+  /* ---- Botón de compra: agrega al carrito ---- */
+  function buyButton(p, extraClass) {
+    if (p.agotado || !p.precio) {
       return '<button class="btn agotado ' + (extraClass || "") + '" type="button" disabled>Agotado</button>';
     }
-    if (link) {
-      return '<a class="btn ' + (extraClass || "") + '" href="' + esc(link) + '" target="_blank" rel="noopener">' + label + "</a>";
-    }
-    return '<button class="btn ' + (extraClass || "") + '" type="button" data-pending="' + esc(p.id) + '">' + label + "</button>";
+    return '<button class="btn ' + (extraClass || "") + '" type="button" data-add="' + esc(p.id) + '">Agregar</button>';
   }
 
   /* ---- Tienda ---- */
@@ -75,9 +70,8 @@
             '<p class="desc">' + esc(p.descripcion) + "</p>" +
             '<div class="row">' +
               '<div class="price">' + (p.precio ? mxn(p.precio) + "<small>MXN</small>" : "<small>Precio pendiente</small>") + "</div>" +
-              buyButton(p, false) +
+              buyButton(p) +
             "</div>" +
-            '<p class="pending" id="pend-' + esc(p.id) + '" hidden>Link de pago pendiente. Se activa al pegar el link de Mercado Pago en config.js.</p>' +
           "</div>" +
         "</article>"
       );
@@ -86,21 +80,13 @@
     var strip = document.getElementById("strip");
     if (strip) {
       var items = ["<span><strong>" + esc(C.envios.linea) + "</strong></span>"];
-      if (C.envios.gratisDesde) items.push("<span>Envío gratis desde " + mxn(C.envios.gratisDesde) + "</span>");
-      else if (C.envios.gratisTexto) items.push("<span>" + esc(C.envios.gratisTexto) + "</span>");
+      if (!C.envios.costo) items.push("<span>Envío gratis</span>");
+      else if (C.envios.gratisDesde) items.push("<span>Envío gratis desde " + mxn(C.envios.gratisDesde) + "</span>");
       items.push("<span>Pago seguro con Mercado Pago</span>");
       strip.innerHTML = items.join("");
     }
     var hook = document.getElementById("hook-pct"); if (hook) hook.textContent = C.descuento.porcentaje + "%";
   }
-
-  /* Botones con link pendiente: muestran aviso en vez de no hacer nada */
-  document.addEventListener("click", function (e) {
-    var b = e.target.closest("[data-pending]");
-    if (!b) return;
-    var note = document.getElementById("pend-" + b.getAttribute("data-pending")) || document.getElementById("pend-quiz");
-    if (note) note.hidden = false;
-  });
 
   /* ---- Advertencias ---- */
   var adv = document.getElementById("advertencias");
@@ -153,6 +139,7 @@
       var win = score.buena > top ? "buena" : (lideres.length > 1 ? "hdsm" : lideres[0]);
       var h = C.hijas[win];
       var sinDesc = !!h.sinDescuento;
+      if (window.HDSMCart) window.HDSMCart.setCode(sinDesc ? "" : (h.codigo || C.descuento.codigo));
       quiz.innerHTML =
         '<div class="result">' +
           '<div class="eyebrow">Confesaste. Eres</div>' +
@@ -163,14 +150,11 @@
             '<div class="code"><span>Usa el código</span><b>' + esc(h.codigo || C.descuento.codigo) + "</b></div>" +
             '<p class="cierre">' + esc(h.cierre || ("Y obtén el " + C.descuento.porcentaje + "% de descuento en tu compra.")) + "</p>") +
           '<div class="shop">' +
-            C.productos.filter(function (p) { return !p.agotado; }).map(function (p) {
-              var inner = buyButton(p, !sinDesc, "block");
-              var precio = p.precio ? " · " + mxn(sinDesc ? p.precio : Math.round(p.precio * (1 - C.descuento.porcentaje / 100))) : "";
-              var etiqueta = "><span>" + esc(p.nombre) + precio + "</span><span>Comprar</span><";
-              return inner.replace(/>Comprar( con 10%)?</, function () { return etiqueta; });
+            C.productos.filter(function (p) { return !p.agotado && p.precio; }).map(function (p) {
+              var precio = " · " + mxn(sinDesc ? p.precio : Math.round(p.precio * (1 - C.descuento.porcentaje / 100)));
+              return '<button class="btn block" type="button" data-add="' + esc(p.id) + '"><span>' + esc(p.nombre) + precio + "</span><span>Agregar</span></button>";
             }).join("") +
           "</div>" +
-          '<p class="pending" id="pend-quiz" hidden>Link de pago pendiente. Se activa al pegar los links con descuento en config.js.</p>' +
           '<button class="again" type="button" id="again">Volver a empezar</button>' +
         "</div>";
       document.getElementById("again").addEventListener("click", function () {

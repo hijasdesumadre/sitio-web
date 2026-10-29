@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gracias | Hijas de Su Madre</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700&family=Caveat+Brush&display=swap">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="stylesheet" href="styles.css">
+<script src="config.js"></script>
+</head>
+<body data-page="gracias">
+<header class="site-header" id="site-header"></header>
+<main class="wrap page">
+  <div class="text estado" id="estado">
+    <img class="mano" src="img/mano-chancla.webp" alt="" width="387" height="411" style="width:110px;height:auto;transform:rotate(-8deg)">
+    <h1 id="g-titulo">Gracias. Tu mamá estaría orgullosa.</h1>
+    <p id="g-texto">Recibimos tu pedido. En cuanto salga te avisamos por WhatsApp o correo.</p>
+    <p class="todo" id="g-ref" hidden></p>
+    <p><a class="btn ghost" href="index.html">Volver a la tienda</a></p>
+  </div>
+</main>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var st = q.get("status") || q.get("collection_status") || "";
+  var ref = q.get("external_reference") || "";
+  var pid = q.get("payment_id") || q.get("collection_id") || "";
+  var t = document.getElementById("g-titulo"), x = document.getElementById("g-texto"), r = document.getElementById("g-ref");
+  if (st === "pending" || st === "in_process") {
+    t.textContent = "Tu pago está en proceso.";
+    x.textContent = "Si pagaste en OXXO o por transferencia, en cuanto se acredite empezamos a preparar tu pedido. Mercado Pago te avisa por correo.";
+  }
+  if (ref || pid) { r.textContent = "Pedido " + (ref || "") + (pid ? " · Pago " + pid : "") + ". Guarda este número por cualquier cosa."; r.hidden = false; }
+  if (st === "approved" || st === "pending" || st === "in_process") { try { if (window.HDSMCart) window.HDSMCart.clear(); } catch (e) {} }
+})();
+</script>
+<footer class="site-footer" id="site-footer"></footer>
+<script src="site.js"></script>
+<script src="carrito.js"></script>
+</body>
+</html>

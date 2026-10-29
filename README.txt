@@ -16,13 +16,14 @@ Qué es cada cosa
 Cómo cambiar algo
 1. Abre config.js con cualquier editor de texto (TextEdit en modo texto plano, VS Code, etc.).
 2. Cambia el valor entre comillas. Respeta las comillas y las comas.
-3. Guarda y vuelve a subir la carpeta completa a Netlify (arrastrar y soltar).
+3. Guarda y sube el cambio a GitHub; Netlify publica solo en un minuto.
 
-Links de Mercado Pago
-- linkPago:          link a precio normal.
-- linkPagoDescuento: link con el 10% ya aplicado (lo usa el test).
-- Mientras un link esté vacío (""), el botón muestra "link pendiente".
-- Al crear cada link en Mercado Pago, activa "el comprador elige la cantidad".
+Cobro (Mercado Pago)
+- El carrito manda el pedido a netlify/functions/checkout.js, que crea el cobro
+  en Mercado Pago con los precios de config.js y redirige al cliente a pagar.
+- El Access Token de Mercado Pago vive en Netlify → Environment variables →
+  MP_ACCESS_TOKEN. Para cambiar de cuenta de Mercado Pago, cambia ese valor.
+- Envío y códigos de descuento: sección "envios" y "codigos" de config.js.
 
 Agotado
 - agotado: true  → el botón dice "Agotado" y el producto no sale en el test.
