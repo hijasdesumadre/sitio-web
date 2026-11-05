@@ -620,6 +620,8 @@ dl.faq dd { margin: 4px 0 0; color: var(--gris); }
 .cart-sum > div { display: flex; justify-content: space-between; }
 .cart-sum .hint { color: var(--gris); font-size: 13px; }
 .cart-sum .tot { font-family: var(--display); font-size: 22px; color: var(--verde-oscuro); padding-top: 4px; }
+.cart-sum.final { border-bottom: none; margin-top: 4px; }
+.cart-sum.final .tot { font-size: 26px; }
 .cart-form { display: flex; flex-direction: column; gap: 10px; }
 .cart-form h3 { margin: 6px 0 0; font-family: var(--label); font-weight: 400; font-size: 18px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--rojo); }
 .f { display: flex; flex-direction: column; gap: 4px; min-width: 0; }

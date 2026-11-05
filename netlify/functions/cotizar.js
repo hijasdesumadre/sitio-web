@@ -34,13 +34,14 @@ exports.handler = async (event) => {
 
   const token = process.env.ENVIA_API_KEY;
   const cliente = { cp, ciudad: body.ciudad, estado: body.estado, colonia: body.colonia };
-  if (!token) return json(200, { respaldo: true, opciones: [{ id: "respaldo", paqueteria: "Envío estándar", servicio: "2 a 6 días hábiles", precio: C.envios.respaldo, dias: "" }] });
+  const respaldo = (motivo) => json(200, { respaldo: true, motivo, opciones: [{ id: "respaldo", paqueteria: "Envío estándar", servicio: "2 a 6 días hábiles", precio: C.envios.respaldo, dias: "" }] });
+  if (!token) return respaldo("sin ENVIA_API_KEY");
   try {
     const opciones = await cotizar(C, lineas, cliente, token);
-    if (opciones.length === 0) throw new Error("sin opciones");
+    if (opciones.length === 0) throw new Error("Envia no devolvió opciones para ese C.P.");
     return json(200, { opciones: opciones.slice(0, 3) });
   } catch (e) {
     console.error("cotizar", e.message);
-    return json(200, { respaldo: true, opciones: [{ id: "respaldo", paqueteria: "Envío estándar", servicio: "2 a 6 días hábiles", precio: C.envios.respaldo, dias: "" }] });
+    return respaldo(String(e.message).slice(0, 300));
   }
 };

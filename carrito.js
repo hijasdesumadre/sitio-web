@@ -84,9 +84,8 @@
       '<div class="cart-sum">' +
         "<div><span>Subtotal</span><span>" + mxn(c.subtotal) + "</span></div>" +
         (c.descuento ? "<div><span>Descuento</span><span>−" + mxn(c.descuento) + "</span></div>" : "") +
-        "<div><span>Envío</span><span>" + (c.gratis ? "Gratis" : c.envio === null ? "Se calcula con tu C.P." : mxn(c.envio)) + "</span></div>" +
+        '<div class="tot"><span>Productos</span><span>' + mxn(c.subtotal - c.descuento) + "</span></div>" +
         (C.envios.gratisDesde && !c.gratis ? '<div class="hint"><span>Envío gratis a partir de ' + mxn(C.envios.gratisDesde) + "</span><span></span></div>" : "") +
-        '<div class="tot"><span>Total</span><span>' + mxn(c.total) + " MXN</span></div>" +
       "</div>" +
       '<form class="cart-form" id="cart-form" novalidate>' +
         "<h3>¿A dónde la mandamos?</h3>" +
@@ -97,7 +96,12 @@
         '<div class="f2">' + field("ciudad", "Ciudad / municipio", 'required autocomplete="address-level2"') +
           '<label class="f"><span>Estado</span><select name="estado" required><option value="">Elige</option>' + ESTADOS.map(function (e) { return '<option' + (cl.estado === e ? " selected" : "") + ">" + e + "</option>"; }).join("") + "</select></label></div>" +
         field("referencias", "Referencias (opcional)", 'placeholder="Portón negro, entre Reforma y Juárez"') +
-        (c.gratis ? "" : '<div class="envio-box" id="envio-box">' + envioHTML() + "</div>") +
+        '<div class="envio-box" id="envio-box">' + envioHTML(c) + "</div>" +
+        '<div class="cart-sum final">' +
+          "<div><span>Productos</span><span>" + mxn(c.subtotal - c.descuento) + "</span></div>" +
+          "<div><span>Envío</span><span>" + (c.gratis ? "Gratis" : c.envio === null ? "—" : mxn(c.envio)) + "</span></div>" +
+          '<div class="tot"><span>Total a pagar</span><span>' + mxn(c.total) + " MXN</span></div>" +
+        "</div>" +
         '<button class="btn block pay" type="submit" id="cart-pay"' + (!c.gratis && c.envio === null ? " disabled" : "") + ">" + (!c.gratis && c.envio === null ? "Escribe tu código postal para ver el envío" : "Pagar " + mxn(c.total) + " con Mercado Pago") + "</button>" +
         '<p class="cart-msg err" id="cart-err" hidden></p>' +
         '<p class="cart-fine">Pagas en Mercado Pago con tarjeta, OXXO o transferencia, con o sin cuenta. Nosotros nunca vemos tus datos de pago.</p>' +
@@ -118,9 +122,10 @@
     cotizarSiListo();
   }
 
-  function envioHTML() {
-    if (envio.cargando) return '<p class="cart-msg">Cotizando envío a tu código postal…</p>';
-    if (!envio.opciones) return "";
+  function envioHTML(c) {
+    if (c && c.gratis) return '<h3>Envío</h3><p class="cart-msg ok">Tu pedido tiene envío gratis. Lo mandamos por nuestra cuenta, 2 a 6 días hábiles.</p>';
+    if (envio.cargando) return '<h3>Envío</h3><p class="cart-msg">Cotizando envío a tu código postal…</p>';
+    if (!envio.opciones) return '<h3>Envío</h3><p class="cart-msg">Escribe tu código postal arriba y te decimos cuánto cuesta y cuándo llega.</p>';
     if (envio.opciones.length === 0) return '<p class="cart-msg err">No encontramos paquetería para ese código postal. Revísalo o escríbenos.</p>';
     return "<h3>Envío</h3>" + envio.opciones.map(function (o) {
       var sel = envio.elegido && envio.elegido.id === o.id;
@@ -139,7 +144,7 @@
     var firma = cp + "|" + JSON.stringify(state.items) + "|" + state.codigo;
     if (envio.cp === firma && envio.opciones) return;
     envio.cp = firma; envio.cargando = true; envio.opciones = null; envio.elegido = null;
-    var box = document.getElementById("envio-box"); if (box) box.innerHTML = envioHTML();
+    var box = document.getElementById("envio-box"); if (box) box.innerHTML = envioHTML(calcular());
     clearTimeout(cotizarTimer);
     cotizarTimer = setTimeout(function () {
       var seq = ++cotizarSeq;
