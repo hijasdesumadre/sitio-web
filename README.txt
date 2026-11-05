@@ -25,5 +25,13 @@ Cobro (Mercado Pago)
   MP_ACCESS_TOKEN. Para cambiar de cuenta de Mercado Pago, cambia ese valor.
 - Envío y códigos de descuento: sección "envios" y "codigos" de config.js.
 
+Envío (Envia.com)
+- El carrito cotiza en vivo con Envia.com cuando el cliente escribe su C.P.
+  (netlify/functions/cotizar.js) y vuelve a cotizar en el servidor al pagar.
+- La API Key vive en Netlify → Environment variables → ENVIA_API_KEY.
+- Dirección de origen, peso por frasco y tamaños de caja: sección "envios" de config.js.
+- Si Envia no responde, se cobra "respaldo" (config.js) y el envío se arma a mano.
+- Envío gratis a partir de "gratisDesde".
+
 Agotado
 - agotado: true  → el botón dice "Agotado" y el producto no sale en el test.

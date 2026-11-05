@@ -8,6 +8,7 @@
   function load() { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { return {}; } }
   function save(st) { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
   var state = load(); state.items = state.items || {}; state.codigo = state.codigo || ""; state.cliente = state.cliente || {};
+  var envio = { opciones: null, elegido: null, cargando: false, cp: "" };   // cotización actual (no se guarda)
 
   function prod(id) { return C.productos.find(function (p) { return p.id === id; }); }
   function count() { return Object.keys(state.items).reduce(function (s, k) { return s + state.items[k]; }, 0); }
@@ -22,8 +23,9 @@
     var pct = cod && C.codigos && C.codigos[cod] ? Number(C.codigos[cod]) : 0;
     var descuento = Math.round(subtotal * pct) / 100;
     var base = subtotal - descuento;
-    var envio = !C.envios.costo || (C.envios.gratisDesde && base >= C.envios.gratisDesde) ? 0 : C.envios.costo;
-    return { lineas: lineas, subtotal: subtotal, pct: pct, codigoValido: !!pct, descuento: descuento, envio: envio, total: base + envio };
+    var gratis = !!(C.envios.gratisDesde && base >= C.envios.gratisDesde);
+    var costoEnvio = gratis ? 0 : (envio.elegido ? envio.elegido.precio : null);   // null = aún sin cotizar
+    return { lineas: lineas, subtotal: subtotal, pct: pct, codigoValido: !!pct, descuento: descuento, gratis: gratis, envio: costoEnvio, total: base + (costoEnvio || 0) };
   }
 
   /* ---- UI ---- */
@@ -55,6 +57,7 @@
 
   function render() {
     var c = calcular(); save(state); badge();
+    setTimeout(cotizarSiListo, 0);
     if (c.lineas.length === 0) {
       body.innerHTML = '<p class="cart-empty">Tu carrito está vacío.<br>De por sí la salsa se acaba sola.</p>' +
         '<a class="btn block" href="index.html#productos">Ver las salsas</a>';
@@ -81,8 +84,8 @@
       '<div class="cart-sum">' +
         "<div><span>Subtotal</span><span>" + mxn(c.subtotal) + "</span></div>" +
         (c.descuento ? "<div><span>Descuento</span><span>−" + mxn(c.descuento) + "</span></div>" : "") +
-        "<div><span>Envío</span><span>" + (c.envio ? mxn(c.envio) : "Gratis") + "</span></div>" +
-        (C.envios.gratisDesde && c.envio ? '<div class="hint"><span>Envío gratis a partir de ' + mxn(C.envios.gratisDesde) + "</span><span></span></div>" : "") +
+        "<div><span>Envío</span><span>" + (c.gratis ? "Gratis" : c.envio === null ? "Se calcula con tu C.P." : mxn(c.envio)) + "</span></div>" +
+        (C.envios.gratisDesde && !c.gratis ? '<div class="hint"><span>Envío gratis a partir de ' + mxn(C.envios.gratisDesde) + "</span><span></span></div>" : "") +
         '<div class="tot"><span>Total</span><span>' + mxn(c.total) + " MXN</span></div>" +
       "</div>" +
       '<form class="cart-form" id="cart-form" novalidate>' +
@@ -94,7 +97,8 @@
         '<div class="f2">' + field("ciudad", "Ciudad / municipio", 'required autocomplete="address-level2"') +
           '<label class="f"><span>Estado</span><select name="estado" required><option value="">Elige</option>' + ESTADOS.map(function (e) { return '<option' + (cl.estado === e ? " selected" : "") + ">" + e + "</option>"; }).join("") + "</select></label></div>" +
         field("referencias", "Referencias (opcional)", 'placeholder="Portón negro, entre Reforma y Juárez"') +
-        '<button class="btn block pay" type="submit" id="cart-pay">Pagar ' + mxn(c.total) + " con Mercado Pago</button>" +
+        (c.gratis ? "" : '<div class="envio-box" id="envio-box">' + envioHTML() + "</div>") +
+        '<button class="btn block pay" type="submit" id="cart-pay"' + (!c.gratis && c.envio === null ? " disabled" : "") + ">" + (!c.gratis && c.envio === null ? "Escribe tu código postal para ver el envío" : "Pagar " + mxn(c.total) + " con Mercado Pago") + "</button>" +
         '<p class="cart-msg err" id="cart-err" hidden></p>' +
         '<p class="cart-fine">Pagas en Mercado Pago con tarjeta, OXXO o transferencia, con o sin cuenta. Nosotros nunca vemos tus datos de pago.</p>' +
       "</form>";
@@ -103,8 +107,54 @@
     body.querySelectorAll("[data-dec]").forEach(function (b) { b.addEventListener("click", function () { var id = b.getAttribute("data-dec"); state.items[id]--; if (state.items[id] < 1) delete state.items[id]; render(); }); });
     document.getElementById("cart-code").addEventListener("submit", function (e) { e.preventDefault(); state.codigo = this.codigo.value.trim(); render(); });
     var form = document.getElementById("cart-form");
-    form.addEventListener("input", function () { var fd = new FormData(form); fd.forEach(function (v, k) { state.cliente[k] = v; }); save(state); });
+    form.addEventListener("input", function (e) {
+      var fd = new FormData(form); fd.forEach(function (v, k) { state.cliente[k] = v; }); save(state);
+      if (e.target.name === "cp" || e.target.name === "estado") cotizarSiListo();
+    });
     form.addEventListener("submit", pagar);
+    body.addEventListener("change", function (e) {
+      if (e.target.name === "envio-opcion") { envio.elegido = envio.opciones.find(function (o) { return o.id === e.target.value; }) || null; render(); }
+    });
+    cotizarSiListo();
+  }
+
+  function envioHTML() {
+    if (envio.cargando) return '<p class="cart-msg">Cotizando envío a tu código postal…</p>';
+    if (!envio.opciones) return "";
+    if (envio.opciones.length === 0) return '<p class="cart-msg err">No encontramos paquetería para ese código postal. Revísalo o escríbenos.</p>';
+    return "<h3>Envío</h3>" + envio.opciones.map(function (o) {
+      var sel = envio.elegido && envio.elegido.id === o.id;
+      return '<label class="envio-opt' + (sel ? " sel" : "") + '"><input type="radio" name="envio-opcion" value="' + esc(o.id) + '"' + (sel ? " checked" : "") + ">" +
+        '<span class="envio-info"><b>' + esc(o.paqueteria) + "</b><small>" + esc(o.servicio) + (o.dias ? " · " + esc(o.dias) : "") + "</small></span>" +
+        '<span class="envio-precio">' + (o.precio ? mxn(o.precio) : "Gratis") + "</span></label>";
+    }).join("");
+  }
+
+  var cotizarTimer = null, cotizarSeq = 0;
+  function cotizarSiListo() {
+    var cp = String(state.cliente.cp || "").replace(/\D/g, "");
+    var c = calcular();
+    if (c.gratis || c.lineas.length === 0) { envio.opciones = null; envio.elegido = null; return; }
+    if (!/^\d{5}$/.test(cp)) { if (envio.cp) { envio.cp = ""; envio.opciones = null; envio.elegido = null; render(); } return; }
+    var firma = cp + "|" + JSON.stringify(state.items) + "|" + state.codigo;
+    if (envio.cp === firma && envio.opciones) return;
+    envio.cp = firma; envio.cargando = true; envio.opciones = null; envio.elegido = null;
+    var box = document.getElementById("envio-box"); if (box) box.innerHTML = envioHTML();
+    clearTimeout(cotizarTimer);
+    cotizarTimer = setTimeout(function () {
+      var seq = ++cotizarSeq;
+      var items = Object.keys(state.items).map(function (id) { return { id: id, qty: state.items[id] }; });
+      fetch("/.netlify/functions/cotizar", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items: items, cp: cp, codigo: state.codigo, estado: state.cliente.estado, ciudad: state.cliente.ciudad, colonia: state.cliente.colonia }) })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (seq !== cotizarSeq) return;
+          envio.cargando = false; envio.opciones = d.opciones || []; envio.elegido = envio.opciones[0] || null; render();
+        })
+        .catch(function () {
+          if (seq !== cotizarSeq) return;
+          envio.cargando = false; envio.opciones = [{ id: "respaldo", paqueteria: "Envío estándar", servicio: "2 a 6 días hábiles", precio: C.envios.respaldo, dias: "" }]; envio.elegido = envio.opciones[0]; render();
+        });
+    }, 500);
   }
 
   function pagar(e) {
@@ -116,7 +166,9 @@
     state.cliente = cliente; save(state);
     var items = Object.keys(state.items).map(function (id) { return { id: id, qty: state.items[id] }; });
     btn.disabled = true; btn.textContent = "Preparando tu pago…";
-    fetch("/.netlify/functions/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items: items, codigo: state.codigo, cliente: cliente }) })
+    var c = calcular();
+    if (!c.gratis && !envio.elegido) { err.textContent = "Escribe tu código postal para calcular el envío."; err.hidden = false; btn.disabled = false; btn.textContent = "Pagar con Mercado Pago"; return; }
+    fetch("/.netlify/functions/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items: items, codigo: state.codigo, cliente: cliente, envioId: envio.elegido ? envio.elegido.id : "gratis" }) })
       .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (res) {
         if (!res.ok || !res.d.url) throw new Error(res.d.error || "No pudimos iniciar el pago.");

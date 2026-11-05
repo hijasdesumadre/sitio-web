@@ -18,8 +18,29 @@ window.HDSM = {
 
   envios: {
     linea: "Enviamos a todo México. 2 a 6 días hábiles.",
-    costo: 99,                              // costo de envío por pedido (MXN). 0 = envío gratis siempre.
-    gratisDesde: 600                        // envío gratis si el subtotal llega a este monto. 0 = nunca.
+    gratisDesde: 600,                       // envío gratis si el subtotal (con descuento) llega a este monto. 0 = nunca.
+    respaldo: 120,                          // si Envia.com no responde, se cobra esto y el envío se cotiza a mano.
+
+    /* Desde dónde sale el paquete (remitente en la guía). */
+    origen: {
+      nombre: "Hijas de Su Madre",          // PENDIENTE: nombre de quien entrega
+      telefono: "5500000000",               // PENDIENTE
+      calle: "PENDIENTE calle y número",
+      colonia: "PENDIENTE",
+      cp: "06000",                          // PENDIENTE
+      ciudad: "Ciudad de México",
+      estado: "CX"                          // código Envia (CX = CDMX, MX = Edo. Méx., JA = Jalisco, NL = Nuevo León…)
+    },
+
+    /* Cómo se empaca: la cotización usa el peso real y la caja según cuántos frascos van. */
+    pesoFrascoKg: { chiquilla: 0.15, grande: 0.45, kit: 1.2 },   // PENDIENTE: pesar con vidrio y tapa
+    cajas: [                                 // de menor a mayor; se elige la primera donde quepan
+      { hastaFrascos: 2, largo: 15, ancho: 15, alto: 12 },
+      { hastaFrascos: 6, largo: 25, ancho: 18, alto: 12 },
+      { hastaFrascos: 12, largo: 35, ancho: 25, alto: 15 }
+    ],
+    contenido: "Salsa macha artesanal en frasco de vidrio",
+    paqueteriasExcluidas: []                 // ej. ["dhl"] para no ofrecer alguna
   },
 
   /* ---------- CÓDIGOS DE DESCUENTO ----------
