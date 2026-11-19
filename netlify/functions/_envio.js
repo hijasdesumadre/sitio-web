@@ -46,19 +46,38 @@ function destino(c) {
 
 const NOMBRES = { fedex: "FedEx", dhl: "DHL", estafeta: "Estafeta", redpack: "Redpack", paquetexpress: "Paquetexpress", ups: "UPS", noventa9minutos: "99 minutos", "99minutos": "99 minutos", sendex: "Sendex", ampm: "AM PM", jtexpress: "J&T Express", treggo: "Treggo", ivoy: "iVoy", borzo: "Borzo", quiken: "Quiken" };
 
-/* Devuelve opciones ordenadas por precio: [{ id, paqueteria, servicio, precio, dias }] */
-async function cotizar(C, lineas, cliente, token) {
-  const body = { origin: origen(C), destination: destino(cliente), packages: [paquete(C, lineas)], shipment: { type: 1 } };
-  const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 12000);
-  let r, data;
+const PAQUETERIAS_DEFAULT = ["estafeta", "fedex", "dhl", "redpack", "paquetexpress", "ups", "99minutos", "jtexpress", "sendex", "ampm"];
+let listaCache = null;
+async function paqueterias(token) {
+  if (listaCache) return listaCache;
   try {
-    r = await fetch(ENVIA + "/ship/rate/", { method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify(body), signal: ctrl.signal });
-    data = await r.json();
-  } finally { clearTimeout(t); }
-  if (!r.ok || !Array.isArray(data.data)) throw new Error("Envia: " + r.status + " " + JSON.stringify(data).slice(0, 300));
+    const r = await fetch("https://queries.envia.com/carrier?country_code=MX", { headers: { Authorization: "Bearer " + token } });
+    const d = await r.json();
+    const lista = (d.data || []).map((c) => String(c.name || c.carrier || "").toLowerCase()).filter(Boolean);
+    listaCache = lista.length ? [...new Set(lista)] : PAQUETERIAS_DEFAULT;
+  } catch (e) { listaCache = PAQUETERIAS_DEFAULT; }
+  return listaCache;
+}
+
+async function rateUna(body, carrier, token) {
+  const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 9000);
+  try {
+    const r = await fetch(ENVIA + "/ship/rate/", { method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify({ ...body, shipment: { type: 1, carrier } }), signal: ctrl.signal });
+    const d = await r.json();
+    return Array.isArray(d.data) ? d.data : [];
+  } catch (e) { return []; } finally { clearTimeout(t); }
+}
+
+/* Devuelve opciones ordenadas por precio: [{ id, paqueteria, servicio, precio, dias }]
+   Envia cotiza una paquetería por llamada: se consultan todas en paralelo. */
+async function cotizar(C, lineas, cliente, token) {
+  const body = { origin: origen(C), destination: destino(cliente), packages: [paquete(C, lineas)] };
   const excl = (C.envios.paqueteriasExcluidas || []).map((x) => x.toLowerCase());
-  return data.data
-    .filter((o) => o.totalPrice && !excl.includes(String(o.carrier).toLowerCase()))
+  const lista = (await paqueterias(token)).filter((c) => !excl.includes(c));
+  const res = await Promise.all(lista.map((c) => rateUna(body, c, token)));
+  const todas = res.flat().filter((o) => o && o.totalPrice && Number(o.totalPrice) > 0);
+  if (todas.length === 0) throw new Error("Ninguna paquetería devolvió tarifa (" + lista.join(",") + ")");
+  return todas
     .map((o) => ({
       id: `${o.carrier}|${o.service}`,
       paqueteria: NOMBRES[String(o.carrier).toLowerCase()] || o.carrier,
