@@ -63,9 +63,9 @@
         : '<div class="ph">' + esc(p.nombre) + "</div>";
       return (
         '<article class="product" id="p-' + esc(p.id) + '">' +
-          '<div class="product-media">' + media + "</div>" +
+          '<button class="product-media" type="button" data-ficha="' + esc(p.id) + '" aria-label="Ver ' + esc(p.nombre) + '">' + media + "</button>" +
           '<div class="product-body">' +
-            "<h2>" + esc(p.nombre) + "</h2>" +
+            '<h2><button type="button" class="ficha-link" data-ficha="' + esc(p.id) + '">' + esc(p.nombre) + "</button></h2>" +
             '<div class="size">' + esc(p.tamano) + "</div>" +
             '<p class="desc">' + esc(p.descripcion) + "</p>" +
             '<div class="row">' +
@@ -102,6 +102,48 @@
           "<section><h3>Efectos secundarios</h3><ul>" + A.efectos.map(function (e) { return "<li>" + esc(e) + "</li>"; }).join("") + "</ul></section>" +
         "</div>" +
       "</div>";
+  }
+
+  /* ---- Ficha del producto (ventanilla) ---- */
+  var F = C.ficha;
+  if (F) {
+    var dlg = document.createElement("div");
+    dlg.className = "ficha-back"; dlg.hidden = true;
+    dlg.innerHTML = '<div class="ficha" role="dialog" aria-modal="true" aria-labelledby="ficha-t"><button class="ficha-x" type="button" aria-label="Cerrar">×</button><div class="ficha-in" id="ficha-in"></div></div>';
+    document.body.appendChild(dlg);
+    var fmt = function (n) { var d = Math.abs(n) < 10 ? 3 : Math.abs(n) < 100 ? 2 : 1; return Number(n.toFixed(d)).toLocaleString("es-MX", { maximumFractionDigits: d }); };
+    var gramos = function (p) { var m = String(p.tamano).match(/([\d.]+)\s*g/i); return m ? Number(m[1]) : F.tablaBaseG; };
+    function abrir(id) {
+      var p = C.productos.find(function (x) { return x.id === id; }); if (!p) return;
+      var g = gramos(p), porciones = g / F.porcionG;
+      var fila = function (r) {
+        var porEnv = r[1] * g / F.tablaBaseG, porPor = r[1] * F.porcionG / F.tablaBaseG;
+        return '<tr class="n' + r[3] + '"><td>' + esc(r[0]) + "</td><td>" + fmt(porEnv) + " " + r[2] + "</td><td>" + fmt(porPor) + " " + r[2] + "</td></tr>";
+      };
+      document.getElementById("ficha-in").innerHTML =
+        '<div class="ficha-foto">' + (p.imagen ? '<img src="' + esc(p.imagen) + '" alt="' + esc(p.nombre) + '">' : "") + "</div>" +
+        '<div class="ficha-txt">' +
+          '<h2 id="ficha-t">' + esc(p.nombre) + "</h2>" +
+          '<div class="ficha-tam">' + esc(p.tamano) + "</div>" +
+          '<p class="ficha-desc">' + esc(p.descripcion) + "</p>" +
+          '<div class="ficha-buy"><span class="price">' + (p.precio ? mxn(p.precio) + "<small>MXN</small>" : "") + "</span>" + buyButton(p) + "</div>" +
+          '<div class="tabla-wrap"><table class="nutri"><caption>Información nutrimental</caption>' +
+            '<thead><tr><th>' + fmt(porciones) + " porciones de " + F.porcionG + " g</th><th>Por envase (" + g + " g)</th><th>Por porción (" + F.porcionG + " g)</th></tr></thead>" +
+            "<tbody>" + F.nutricion.map(fila).join("") + "</tbody></table></div>" +
+          '<h3>Ingredientes</h3><p class="ficha-ing">' + esc(F.ingredientes) + "</p>" +
+          '<h3>Información alergénica</h3><p class="ficha-ing">' + esc(F.alergenos) + "</p>" +
+        "</div>" +
+        '<div class="ficha-sellos">' + F.sellos.map(function (s) { return '<img src="' + esc(s[0]) + '" alt="' + esc(s[1]) + '">'; }).join("") + "</div>";
+      dlg.hidden = false; document.body.classList.add("cart-abierto");
+      dlg.querySelector(".ficha-x").focus();
+    }
+    function cerrar() { dlg.hidden = true; document.body.classList.remove("cart-abierto"); }
+    dlg.addEventListener("click", function (e) {
+      if (e.target === dlg || e.target.closest(".ficha-x")) cerrar();
+      else if (e.target.closest("[data-add]")) setTimeout(cerrar, 0);
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !dlg.hidden) cerrar(); });
+    document.addEventListener("click", function (e) { var b = e.target.closest("[data-ficha]"); if (b) { e.preventDefault(); abrir(b.getAttribute("data-ficha")); } });
   }
 
   /* ---- Test ---- */

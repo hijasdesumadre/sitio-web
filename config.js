@@ -43,6 +43,35 @@ window.HDSM = {
     paqueteriasExcluidas: []                 // ej. ["dhl"] para no ofrecer alguna
   },
 
+  /* ---------- FICHA DEL PRODUCTO (ventanilla al picar un producto) ----------
+     Hoy todas las presentaciones son el mismo sabor, así que comparten esta ficha.
+     La tabla está declarada para el frasco de 200 g; para otras presentaciones
+     la columna "por envase" se calcula proporcional al gramaje del producto. */
+  ficha: {
+    porcionG: 20,
+    tablaBaseG: 200,
+    nutricion: [
+      // [nombre, valor por 200 g, unidad, nivel (0 = principal, 1 = sub-renglón)]
+      ["Contenido energético", 1296, "kcal", 0],
+      ["Proteínas", 9.6, "g", 0],
+      ["Grasas totales", 132.4, "g", 0],
+      ["Grasas saturadas", 18.8, "g", 1],
+      ["Grasas trans", 0, "g", 1],
+      ["Hidratos de carbono", 16.4, "g", 0],
+      ["Azúcares", 3.6, "g", 1],
+      ["Fibra dietética", 8.2, "g", 0],
+      ["Sodio", 2.136, "mg", 0]              // REVISAR: ¿2.136 mg o 2,136 mg?
+    ],
+    ingredientes: "Cacahuate tostado, chile de árbol, chile guajillo, ajo, ajonjolí, chile pasilla, pepita verde, almendras, sal, aceite de oliva.",
+    alergenos: "Contiene cacahuate y almendra.",
+    sellos: [
+      ["img/sellos/s1.webp", "Sin conservadores"],
+      ["img/sellos/s2.webp", "Sin aditivos"],
+      ["img/sellos/s3.webp", "Ingredientes 100% naturales"],
+      ["img/sellos/s4.webp", "Calidad premium"]
+    ]
+  },
+
   /* ---------- CÓDIGOS DE DESCUENTO ----------
      Cualquier código aquí aplica el porcentaje sobre el subtotal (no sobre el envío).
      Los del test se repiten abajo en "hijas"; mantenlos iguales. */
