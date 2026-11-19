@@ -8,7 +8,7 @@
 window.HDSM = {
 
   marca: "Hijas de Su Madre",
-  lema: "Salsa macha hecha con 100% aceite de oliva.",
+  lema: "Salsas machas hechas con ingredientes 100% naturales.",
 
   contacto: {
     email: "las@hijasdesumadre.mx",

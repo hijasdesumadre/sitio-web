@@ -44,7 +44,7 @@ function destino(c) {
   };
 }
 
-const NOMBRES = { fedex: "FedEx", dhl: "DHL", estafeta: "Estafeta", redpack: "Redpack", paquetexpress: "Paquetexpress", ups: "UPS", noventa9minutos: "99 minutos", "99minutos": "99 minutos", sendex: "Sendex", ampm: "AM PM", jtexpress: "J&T Express", treggo: "Treggo", ivoy: "iVoy", borzo: "Borzo", quiken: "Quiken" };
+const NOMBRES = { fedex: "FedEx", dhl: "DHL", estafeta: "Estafeta", redpack: "Redpack", paquetexpress: "Paquetexpress", ups: "UPS", noventa9minutos: "99 minutos", "99minutos": "99 minutos", sendex: "Sendex", ampm: "AM PM", jtexpress: "J&T Express", treggo: "Treggo", ivoy: "iVoy", borzo: "Borzo", quiken: "Quiken", imile: "iMile", puntopost: "PuntoPost", noventa9minutos: "99 minutos" };
 
 const PAQUETERIAS_DEFAULT = ["estafeta", "fedex", "dhl", "redpack", "paquetexpress", "ups", "99minutos", "jtexpress", "sendex", "ampm"];
 let listaCache = null;
@@ -75,7 +75,9 @@ async function cotizar(C, lineas, cliente, token) {
   const excl = (C.envios.paqueteriasExcluidas || []).map((x) => x.toLowerCase());
   const lista = (await paqueterias(token)).filter((c) => !excl.includes(c));
   const res = await Promise.all(lista.map((c) => rateUna(body, c, token)));
-  const todas = res.flat().filter((o) => o && o.totalPrice && Number(o.totalPrice) > 0);
+  // Solo entrega a domicilio: fuera servicios de punto a punto, ocurre o recoger en sucursal.
+  const noDomicilio = /punto a punto|c2c|ocurre|sucursal|pickup|pick up|recolecci[oó]n en tienda|locker/i;
+  const todas = res.flat().filter((o) => o && o.totalPrice && Number(o.totalPrice) > 0 && !noDomicilio.test(`${o.service} ${o.serviceDescription || ""}`));
   if (todas.length === 0) throw new Error("Ninguna paquetería devolvió tarifa (" + lista.join(",") + ")");
   return todas
     .map((o) => ({
