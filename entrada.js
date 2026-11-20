@@ -94,9 +94,9 @@
       nina.classList.remove("asustada");
       nina.classList.add("ay");
       var b = document.createElement("div");
-      b.className = "burbuja"; b.textContent = "¡AY!";
-      b.style.left = (nb.left + nb.width * (lado === "izq" ? 0.85 : 0.15)) + "px";
-      b.style.top = (nb.top + nb.height * 0.12) + "px";
+      b.className = "burbuja"; b.textContent = "¡Perdón, mamá!";
+      b.style.left = Math.min(window.innerWidth - 150, Math.max(150, nb.left + nb.width * 0.5)) + "px";
+      b.style.top = (nb.top + nb.height * 0.06) + "px";
       root.appendChild(b); void b.offsetWidth; b.classList.add("ve");
 
       var t0 = performance.now(), vx = (lado === "izq" ? 1 : -1) * 3, vy = -6.5, x = p.x, y = p.y, r = 0;

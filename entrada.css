@@ -108,7 +108,7 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
 
 .burbuja {
   position: absolute; z-index: 4; pointer-events: none;
-  font-family: var(--display); font-size: clamp(30px, 6vmin, 56px); color: var(--rojo);
+  font-family: var(--display); font-size: clamp(24px, 4.6vmin, 44px); color: var(--rojo); white-space: nowrap; text-transform: uppercase;
   transform: translate(-50%, -100%) scale(0) rotate(-10deg); opacity: 0;
 }
 .burbuja.ve { animation: burbuja .7s cubic-bezier(.2,1.6,.4,1) forwards; }
