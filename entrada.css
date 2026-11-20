@@ -21,7 +21,7 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
   display: flex; flex-direction: column; align-items: center; gap: clamp(10px, 1.8vh, 18px);
   text-align: center; pointer-events: none;
 }
-.entrada-logo { display: block; height: clamp(64px, 12vh, 124px); width: auto; }
+.entrada-logo { display: block; height: clamp(56px, 10vh, 104px); width: auto; margin-bottom: clamp(6px, 2vh, 18px); }
 .entrada-titulo {
   margin: 0;
   font-family: var(--display); font-weight: 400; text-transform: uppercase;

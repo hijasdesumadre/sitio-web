@@ -17,7 +17,7 @@
   if (header) {
     header.innerHTML =
       '<div class="wrap">' +
-        '<a class="logo" href="index.html" aria-label="' + esc(C.marca) + '"><img class="logo-img" src="img/logo-circulo.webp" alt="' + esc(C.marca) + '" width="592" height="600"></a>' +
+        '<a class="logo" href="index.html" aria-label="' + esc(C.marca) + '"><img class="logo-img" src="img/logo-texto.webp" alt="' + esc(C.marca) + '" width="425" height="183"></a>' +
         '<button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav">Menú</button>' +
         '<nav class="nav" id="nav">' +
           links.map(function (l) {
