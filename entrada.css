@@ -15,7 +15,7 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
 
 .entrada-cabeza {
   position: absolute; left: 0; right: 0;
-  top: max(9vh, calc(env(safe-area-inset-top, 0px) + 28px));
+  top: max(4vh, calc(env(safe-area-inset-top, 0px) + 16px));
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   display: flex; flex-direction: column; align-items: center; gap: clamp(10px, 1.8vh, 18px);
@@ -50,12 +50,12 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
 
 /* La niña */
 .nina {
-  position: absolute; left: 50%; top: 66%;
-  width: min(50vmin, 340px, 40vh);
+  position: absolute; left: 50%; top: 60%;
+  width: min(56vmin, 440px, 46vh);
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
-@media (max-width: 600px) { .nina { width: min(62vw, 300px, 36vh); top: 67%; } }
+@media (max-width: 600px) { .nina { width: min(62vw, 300px, 36vh); top: 63%; } }
 .nina svg { display: block; width: 100%; height: auto; overflow: visible; }
 .nina svg * { transform-box: view-box; }
 .nina .cara-ay, .nina .lengua, .nina .cejas-preocupada, .nina .boca-preocupada { display: none; }
