@@ -61,7 +61,10 @@
       <path d="M95 118 l5 -3 M97 122 l5 -3 M139 118 l5 3 M137 122 l5 3" stroke="#B93B20" stroke-width="1.6"/>
       <!-- cara normal: ojos que se mueven, cejas de traviesa, sonrisa chueca -->
       <g class="cara-normal">
-        <path d="M101 97 l11 3 M139 97 l-11 3" stroke="#B93B20" stroke-width="3"/>
+        <path class="cejas" d="M101 97 l11 3 M139 97 l-11 3" stroke="#B93B20" stroke-width="3"/>
+        <!-- preocupada: cejas levantadas por dentro, boquita temblorosa -->
+        <path class="cejas-preocupada" d="M101 98 q6 -6 12 -6 M139 98 q-6 -6 -12 -6" stroke="#B93B20" stroke-width="3" fill="none"/>
+        <path class="boca-preocupada" d="M110 127 q3 -3 6 0 q3 3 6 0 q3 -3 6 0" stroke="#B93B20" stroke-width="2.6" fill="none"/>
         <g class="ojos" fill="#B93B20">
           <ellipse cx="108" cy="108" rx="3.6" ry="4.6"/>
           <ellipse cx="132" cy="108" rx="3.6" ry="4.6"/>

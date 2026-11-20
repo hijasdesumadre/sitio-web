@@ -54,7 +54,7 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
 }
 .nina svg { display: block; width: 100%; height: auto; overflow: visible; }
 .nina svg * { transform-box: view-box; }
-.nina .cara-ay, .nina .lengua { display: none; }
+.nina .cara-ay, .nina .lengua, .nina .cejas-preocupada, .nina .boca-preocupada { display: none; }
 .nina .cabeza { transform-origin: 120px 140px; animation: nina-cabeza 4s ease-in-out infinite; }
 .nina .ojos { animation: nina-ojos 4s steps(1, end) infinite; }
 .nina .brazo-cuchara { transform-origin: 150px 156px; animation: nina-cuchara 2s cubic-bezier(.5,0,.3,1) infinite; }
@@ -74,9 +74,9 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
 
 /* Ve venir a mamá: deja de comer, ojos de plato, boquita de "o" y tiembla */
 .nina.asustada .cabeza, .nina.asustada .brazo-cuchara, .nina.asustada .boca, .nina.asustada .boca-abierta { animation-play-state: paused; }
-.nina.asustada .boca { display: none; }
-.nina.asustada .boca-abierta { animation: none; opacity: 1; transform: scale(.55); }
-.nina.asustada .ojos { animation: none; transform-origin: 120px 108px; transform: translate(var(--ojo-x, 0px), -1px) scale(1.25); transition: transform .2s; }
+.nina.asustada .boca, .nina.asustada .boca-abierta, .nina.asustada .cejas { display: none; }
+.nina.asustada .cejas-preocupada, .nina.asustada .boca-preocupada { display: inline; }
+.nina.asustada .ojos { animation: none; transform-origin: 120px 108px; transform: translate(var(--ojo-x, 0px), -1px) scale(1.15); transition: transform .2s; }
 .nina.asustada svg { animation: nina-tiembla .09s linear infinite alternate; }
 @keyframes nina-tiembla { from { transform: translateX(-1.5px); } to { transform: translateX(1.5px); } }
 

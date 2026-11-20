@@ -93,11 +93,6 @@
     function pega(ch, p, s, size) {
       nina.classList.remove("asustada");
       nina.classList.add("ay");
-      var b = document.createElement("div");
-      b.className = "burbuja"; b.textContent = "¡Perdón, mamá!";
-      b.style.left = Math.min(window.innerWidth - 150, Math.max(150, nb.left + nb.width * 0.5)) + "px";
-      b.style.top = (nb.top + nb.height * 0.06) + "px";
-      root.appendChild(b); void b.offsetWidth; b.classList.add("ve");
 
       var t0 = performance.now(), vx = (lado === "izq" ? 1 : -1) * 3, vy = -6.5, x = p.x, y = p.y, r = 0;
       (function cae(now) {
@@ -119,7 +114,6 @@
         polvo.innerHTML = [0, 1, 2].map(function (i) { return '<i style="top:' + (i * 12) + 'px;width:' + (40 - i * 8) + 'px;--dx:' + (haciaIzq ? 60 : -60) + 'px"></i>'; }).join("");
         root.appendChild(polvo);
         nina.style.left = haciaIzq ? "-40%" : "140%";
-        b.style.transition = "opacity .3s"; b.style.opacity = "0";
       }, 700);
       setTimeout(terminar, 1500);
     }
