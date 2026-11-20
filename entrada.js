@@ -56,10 +56,10 @@
     setTimeout(function () {                                           // 2. la niña la ve
       nina.style.setProperty("--ojo-x", (lado === "izq" ? -2 : 2) + "px");
       nina.classList.add("asustada");
-    }, 650);
+    }, 1100);
 
-    setTimeout(function () { mama.classList.add("lanza"); }, 1450);    // 3. rápido: para atrás y ¡zas!
-    setTimeout(lanzar, 1450 + 310);
+    setTimeout(function () { mama.classList.add("lanza"); }, 2500);    // 3. rápido: para atrás y ¡zas!
+    setTimeout(lanzar, 2500 + 310);
 
     function lanzar() {
       var mano = mama.querySelector(".m-chancla") || mama;

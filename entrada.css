@@ -76,7 +76,7 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
 .nina.asustada .cabeza, .nina.asustada .brazo-cuchara, .nina.asustada .boca, .nina.asustada .boca-abierta { animation-play-state: paused; }
 .nina.asustada .boca { display: none; }
 .nina.asustada .boca-abierta { animation: none; opacity: 1; transform: scale(.55); }
-.nina.asustada .ojos { animation: none; transform: translate(var(--ojo-x, 0px), -2px) scale(1.3); transition: transform .2s; }
+.nina.asustada .ojos { animation: none; transform-origin: 120px 108px; transform: translate(var(--ojo-x, 0px), -1px) scale(1.25); transition: transform .2s; }
 .nina.asustada svg { animation: nina-tiembla .09s linear infinite alternate; }
 @keyframes nina-tiembla { from { transform: translateX(-1.5px); } to { transform: translateX(1.5px); } }
 
@@ -133,7 +133,7 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
 .mama .m-cuerpo { transform-origin: 150px 300px; }
 
 /* 1. Aparece despacio, amenazante, con la chancla en alto */
-.mama.aparece { animation: mama-aparece .95s cubic-bezier(.25,.8,.3,1) forwards; }
+.mama.aparece { animation: mama-aparece 2s cubic-bezier(.3,.6,.35,1) forwards; }
 .mama.aparece .m-cuerpo { animation: mama-respira 1.6s ease-in-out infinite; }
 .mama.aparece .m-brazo { animation: mama-amenaza 1.6s ease-in-out infinite; }
 @keyframes mama-aparece { from { transform: translateY(105%); } to { transform: translateY(var(--my)); } }
