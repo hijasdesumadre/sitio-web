@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <!-- La mamá vista de espaldas, de la cintura para arriba. Mismo trazo que la niña. -->
+  <defs>
+    <filter id="grabado-m" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="1.3" numOctaves="1" seed="11"/>
+      <feDisplacementMap in="SourceGraphic" scale="1.3"/>
+    </filter>
+  </defs>
+  <g filter="url(#grabado-m)" stroke-linejoin="round" stroke-linecap="round">
+    <g class="m-cuerpo">
+      <!-- brazo izquierdo, colgando -->
+      <path d="M66 168 Q46 214 40 300" stroke="#B93B20" stroke-width="26" fill="none"/>
+      <path d="M66 168 Q46 214 40 300" stroke="#F2E6D3" stroke-width="16" fill="none"/>
+      <!-- espalda / vestido -->
+      <path d="M44 300 L54 176 Q62 140 108 128 Q150 120 192 128 Q238 140 246 176 L256 300 Z" fill="#B93B20"/>
+      <!-- mangas -->
+      <path d="M50 186 Q52 150 86 136 L94 178 Q70 190 50 186 Z" fill="#B93B20" stroke="#F2E6D3" stroke-width="2.5"/>
+      <!-- tirantes del mandil cruzados y moño -->
+      <path d="M110 134 L188 262 M190 134 L112 262" stroke="#F2E6D3" stroke-width="9"/>
+      <path d="M120 270 q-18 -10 -26 4 q12 10 26 0 Z M180 270 q18 -10 26 4 q-12 10 -26 0 Z" fill="#F2E6D3"/>
+      <circle cx="150" cy="268" r="7" fill="#F2E6D3"/>
+      <path d="M146 274 l-8 26 M154 274 l8 26" stroke="#F2E6D3" stroke-width="6"/>
+      <!-- textura de grabado -->
+      <g stroke="#F2E6D3" stroke-width="1.8" fill="none">
+        <path d="M76 214 l10 -12 M80 230 l12 -14 M84 246 l12 -14 M214 210 l10 -12 M210 228 l12 -14 M206 244 l12 -14"/>
+        <path d="M128 140 q22 6 44 0" stroke-dasharray="3 5"/>
+      </g>
+      <!-- cuello -->
+      <path d="M130 128 L132 104 L168 104 L170 128 Q150 136 130 128 Z" fill="#F2E6D3" stroke="#B93B20" stroke-width="3.5"/>
+      <!-- cabeza de espaldas: pelo recogido, chongo, orejas, aretes -->
+      <ellipse cx="106" cy="76" rx="7" ry="10" fill="#F2E6D3" stroke="#B93B20" stroke-width="3"/>
+      <ellipse cx="194" cy="76" rx="7" ry="10" fill="#F2E6D3" stroke="#B93B20" stroke-width="3"/>
+      <circle cx="104" cy="90" r="3.5" fill="#B93B20"/><circle cx="196" cy="90" r="3.5" fill="#B93B20"/>
+      <ellipse cx="150" cy="70" rx="44" ry="42" fill="#B93B20"/>
+      <circle cx="150" cy="26" r="20" fill="#B93B20"/>
+      <g stroke="#F2E6D3" stroke-width="1.8" fill="none">
+        <path d="M120 50 q12 -14 30 -14 M126 66 q14 -16 34 -14 M176 52 q-6 -10 -18 -14 M118 84 q12 -8 22 -6 M184 74 q-8 -10 -20 -8"/>
+        <path d="M138 22 q12 -10 24 0 M140 32 q10 -6 20 0"/>
+      </g>
+      <path d="M136 42 q14 6 28 0" stroke="#F2E6D3" stroke-width="3" fill="none"/>
+    </g>
+
+    <!-- brazo que avienta (gira desde el hombro) -->
+    <g class="m-brazo">
+      <path d="M232 160 Q270 120 280 64" stroke="#B93B20" stroke-width="26" fill="none"/>
+      <path d="M232 160 Q270 120 280 64" stroke="#F2E6D3" stroke-width="16" fill="none"/>
+      <path d="M214 174 Q218 140 246 132 L262 168 Q240 186 214 174 Z" fill="#B93B20" stroke="#F2E6D3" stroke-width="2.5"/>
+      <circle class="m-mano" cx="281" cy="58" r="12" fill="#F2E6D3" stroke="#B93B20" stroke-width="3.5"/>
+      <!-- la chancla en la mano -->
+      <g class="m-chancla">
+        <path d="M268 46 Q262 8 284 4 Q304 4 300 40 Q298 66 286 72 Q272 72 268 46 Z" fill="#B93B20"/>
+        <path d="M275 30 Q284 40 294 28 M284 38 L285 52" stroke="#F2E6D3" stroke-width="3" fill="none"/>
+      </g>
+      <path d="M272 58 q8 -6 18 0" stroke="#B93B20" stroke-width="2.5" fill="none"/>
+    </g>
+  </g>
+</svg>
