@@ -105,6 +105,7 @@
       <path class="gota g3" d="M98 178 q3 5 0 8 q-3 -3 0 -8 Z"/>
       <path class="gota g4" d="M124 192 q3 5 0 8 q-3 -3 0 -8 Z"/>
       <path class="gota g5" d="M86 194 q3 5 0 8 q-3 -3 0 -8 Z"/>
+      <path class="gota g5" d="M86 194 q3 5 0 8 q-3 -3 0 -8 Z"/>
     </g>
     <g fill="#B93B20"><ellipse cx="128" cy="286" rx="7" ry="2"/><ellipse cx="96" cy="288" rx="4" ry="1.5"/><ellipse cx="150" cy="285" rx="3" ry="1.2"/></g>
   </g>

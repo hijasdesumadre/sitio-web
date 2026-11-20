@@ -106,7 +106,7 @@
         if (atino && !avisada && t > 0.55) { avisada = true; nina.style.setProperty("--ojo-x", (p.x < blanco.x ? -2 : 2) + "px"); nina.classList.add("asustada"); }
         if (t < 1) requestAnimationFrame(vuela); else (atino ? pega : falla)(p, s);
       })(t0);
-    }, 980);
+    }, 1150);
 
     function rebota(p, s, fuerza) {
       var t0 = performance.now(), vx = (lado === "izq" ? 1 : -1) * 3.2 * fuerza, vy = -7 * fuerza, x = p.x, y = p.y, r = 0;

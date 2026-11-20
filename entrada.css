@@ -129,15 +129,32 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
 .mama .mov { opacity: 0; }
 .mama.izq { left: var(--mx); }
 .mama.der { right: var(--mx); }
-.mama.entra { animation: mama-entra .45s cubic-bezier(.2,.9,.3,1) forwards; }
-/* impulso: el brazo se va para atrás (abajo) y luego lanza */
-.mama.entra .brazo { animation: mama-brazo 1.05s .3s cubic-bezier(.45,0,.2,1) both; }
-.mama.entra .cuerpo { transform-origin: 200px 557px; animation: mama-cuerpo 1.05s .3s cubic-bezier(.45,0,.2,1) both; }
-.mama.entra .mov { animation: mama-mov .5s .95s ease-out; }
-.mama.sale-mama { animation: mama-sale .45s ease-in forwards; }
-@keyframes mama-entra { from { transform: translateY(105%); } to { transform: translateY(var(--my)); } }
-@keyframes mama-brazo { 0% { transform: rotate(0); } 55% { transform: rotate(-75deg); } 70% { transform: rotate(22deg); } 82% { transform: rotate(8deg); } 100% { transform: rotate(4deg); } }
-@keyframes mama-cuerpo { 0% { transform: rotate(0); } 55% { transform: rotate(-5deg) translateX(-6px); } 72% { transform: rotate(4deg) translateX(6px); } 100% { transform: rotate(1deg); } }
+.mama.entra { animation: mama-entra .55s cubic-bezier(.22,1.2,.36,1) forwards; }
+/* tiro por arriba: el brazo SUBE y se va para atrás, se carga, y BAJA con todo */
+.mama.entra .brazo { animation: mama-brazo 1.15s .3s both; }
+.mama.entra .cuerpo { transform-origin: 230px 557px; animation: mama-cuerpo 1.15s .3s both, mama-respira 1.8s 1.45s ease-in-out infinite; }
+.mama.entra .mov { animation: mama-mov .5s 1.05s ease-out; }
+.mama.sale-mama { animation: mama-sale .5s cubic-bezier(.5,0,.75,0) forwards; }
+@keyframes mama-entra { 0% { transform: translateY(105%); } 70% { transform: translateY(calc(var(--my) - 2%)); } 100% { transform: translateY(var(--my)); } }
+@keyframes mama-brazo {
+  0%   { transform: rotate(0); animation-timing-function: cubic-bezier(.4,0,.6,1); }
+  18%  { transform: rotate(-12deg); animation-timing-function: cubic-bezier(.3,0,.4,1); }
+  52%  { transform: rotate(-78deg); animation-timing-function: ease-in-out; }
+  62%  { transform: rotate(-84deg); animation-timing-function: cubic-bezier(.6,0,.9,.6); }
+  74%  { transform: rotate(24deg); animation-timing-function: cubic-bezier(.2,.6,.4,1); }
+  84%  { transform: rotate(12deg); animation-timing-function: ease-in-out; }
+  92%  { transform: rotate(17deg); animation-timing-function: ease-in-out; }
+  100% { transform: rotate(14deg); }
+}
+@keyframes mama-cuerpo {
+  0%   { transform: rotate(0) translate(0,0); animation-timing-function: ease-in-out; }
+  52%  { transform: rotate(-2.2deg) translate(-8px, 6px); animation-timing-function: ease-in-out; }
+  62%  { transform: rotate(-2.8deg) translate(-10px, 9px); animation-timing-function: cubic-bezier(.6,0,.9,.6); }
+  74%  { transform: rotate(2.4deg) translate(10px, -6px); animation-timing-function: cubic-bezier(.2,.6,.4,1); }
+  86%  { transform: rotate(1deg) translate(4px, 0); animation-timing-function: ease-in-out; }
+  100% { transform: rotate(1.4deg) translate(5px, 1px); }
+}
+@keyframes mama-respira { 0%,100% { transform: rotate(1.4deg) translate(5px, 1px); } 50% { transform: rotate(.8deg) translate(3px, -3px); } }
 @keyframes mama-mov { 0%, 100% { opacity: 0; } 30% { opacity: 1; } }
 @keyframes mama-sale { from { transform: translateY(var(--my)); } to { transform: translateY(105%); } }
 
