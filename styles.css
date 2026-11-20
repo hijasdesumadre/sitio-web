@@ -692,8 +692,8 @@ table.nutri tr.n1 td:first-child::before { content: "• "; }
 
 /* ---------- Cursor de chancla en todo lo que se puede picar ---------- */
 a, button, label, select, summary, [role="button"], [data-ficha], [data-add], .opt, .envio-opt, input[type="radio"], input[type="checkbox"] {
-  cursor: url("img/cursor-chancla.png") 22 2, pointer;
-  cursor: -webkit-image-set(url("img/cursor-chancla.png") 1x, url("img/cursor-chancla@2x.png") 2x) 22 2, pointer;
-  cursor: image-set(url("img/cursor-chancla.png") 1x, url("img/cursor-chancla@2x.png") 2x) 22 2, pointer;
+  cursor: url("img/cursor-chancla.png") 3 3, pointer;
+  cursor: -webkit-image-set(url("img/cursor-chancla.png") 1x, url("img/cursor-chancla@2x.png") 2x) 3 3, pointer;
+  cursor: image-set(url("img/cursor-chancla.png") 1x, url("img/cursor-chancla@2x.png") 2x) 3 3, pointer;
 }
 button:disabled, .btn.agotado { cursor: not-allowed; }

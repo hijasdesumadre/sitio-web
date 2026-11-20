@@ -11,7 +11,7 @@
     ["nosotras.html", "Nosotros", "nosotras"],
     ["ingredientes.html", "Ingredientes", "ingredientes"],
     ["que-hija-eres.html", "¿Qué hija eres?", "test"],
-    ["envios.html", "Envíos", "envios"]
+    ["envios.html", "FAQ", "envios"]
   ];
   var header = document.getElementById("site-header");
   if (header) {
