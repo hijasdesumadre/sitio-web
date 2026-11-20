@@ -66,10 +66,20 @@
           <ellipse cx="108" cy="108" rx="3.6" ry="4.6"/>
           <ellipse cx="132" cy="108" rx="3.6" ry="4.6"/>
         </g>
+        <!-- boca: cerrada (masticando) / abierta (cuando llega la cuchara) -->
         <g class="boca">
-          <path d="M109 124 Q122 132 134 121" stroke="#B93B20" stroke-width="3" fill="none"/>
-          <path d="M131 124 q4 3 2 7 q-3 -1 -2 -7 Z" fill="#B93B20"/>
+          <path d="M107 125 Q119 133 133 122" stroke="#B93B20" stroke-width="3" fill="none"/>
         </g>
+        <g class="boca-abierta">
+          <ellipse cx="109" cy="126" rx="10" ry="9" fill="#B93B20"/>
+          <path d="M102 130 q7 3 14 0" stroke="#F2E6D3" stroke-width="1.6" fill="none"/>
+        </g>
+        <g class="lengua">
+          <path d="M108 124 Q120 132 132 124" stroke="#B93B20" stroke-width="3" fill="none"/>
+          <path d="M116 127 q4 10 9 0" fill="#B93B20"/>
+        </g>
+        <!-- embarrada de salsa: no le importa -->
+        <path d="M131 124 q5 3 3 9 q-4 -1 -3 -9 Z M104 129 q-3 4 0 7 q2 -3 0 -7 Z" fill="#B93B20"/>
       </g>
       <!-- cara de ¡ay! -->
       <g class="cara-ay" stroke="#B93B20" stroke-width="3" fill="none">
@@ -89,5 +99,14 @@
       <ellipse cx="95" cy="170" rx="4" ry="2.2" transform="rotate(30 95 170)" fill="#F2E6D3"/>
       <circle cx="127" cy="189" r="7.5" fill="#F2E6D3" stroke="#B93B20" stroke-width="3.5"/>
     </g>
+
+    <!-- gotas que se le caen -->
+    <g class="gotas" fill="#B93B20">
+      <path class="gota g1" d="M133 134 q3 5 0 8 q-3 -3 0 -8 Z"/>
+      <path class="gota g2" d="M106 136 q3 5 0 8 q-3 -3 0 -8 Z"/>
+      <path class="gota g3" d="M98 178 q3 5 0 8 q-3 -3 0 -8 Z"/>
+      <path class="gota g4" d="M124 192 q3 5 0 8 q-3 -3 0 -8 Z"/>
+    </g>
+    <g fill="#B93B20"><ellipse cx="128" cy="286" rx="7" ry="2"/><ellipse cx="96" cy="288" rx="4" ry="1.5"/><ellipse cx="150" cy="285" rx="3" ry="1.2"/></g>
   </g>
 </svg>

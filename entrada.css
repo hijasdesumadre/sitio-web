@@ -27,6 +27,7 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
 }
 .entrada-titulo span { color: var(--rojo); display: block; }
 .entrada-pista {
+  font-family: var(--display) !important; font-size: clamp(26px, 5vw, 48px) !important; color: var(--rojo) !important; letter-spacing: 0.04em !important;
   position: absolute; left: 0; right: 0; top: calc(max(6vh, calc(env(safe-area-inset-top, 0px) + 20px)) + clamp(64px, 13vw, 156px));
   text-align: center; margin: 0; pointer-events: none;
   font-family: var(--label); text-transform: uppercase; letter-spacing: 0.12em; font-size: 14px; color: var(--gris);
@@ -54,22 +55,40 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
 }
 .nina svg { display: block; width: 100%; height: auto; overflow: visible; }
 .nina svg * { transform-box: view-box; }
-.nina .cara-ay { display: none; }
-.nina .cabeza { transform-origin: 120px 140px; animation: nina-cabeza 3.2s ease-in-out infinite; }
-.nina .ojos { animation: nina-ojos 3.2s steps(1, end) infinite; }
+.nina .cara-ay, .nina .lengua { display: none; }
+.nina .cabeza { transform-origin: 120px 140px; animation: nina-cabeza 4s ease-in-out infinite; }
+.nina .ojos { animation: nina-ojos 4s steps(1, end) infinite; }
 .nina .brazo-cuchara { transform-origin: 150px 156px; animation: nina-cuchara 2s cubic-bezier(.5,0,.3,1) infinite; }
-.nina .boca { transform-origin: 122px 126px; animation: nina-mastica 2s ease-in-out infinite; }
-.nina .cuerpo-todo { animation: nina-rebote 2s ease-in-out infinite; }
+.nina .boca { transform-origin: 120px 127px; animation: nina-boca 2s linear infinite; }
+.nina .boca-abierta { transform-origin: 109px 126px; animation: nina-boca-abierta 2s linear infinite; }
+.nina .gota { animation: nina-gota 2s ease-in infinite; opacity: 0; }
+.nina .g1 { animation-delay: 1.15s; } .nina .g2 { animation-delay: 1.5s; } .nina .g3 { animation-delay: .35s; } .nina .g4 { animation-delay: .9s; animation-duration: 2.6s; }
 
 @keyframes nina-cabeza { 0%,100% { transform: rotate(0); } 20%,40% { transform: rotate(-5deg); } 60%,80% { transform: rotate(5deg); } }
 @keyframes nina-ojos { 0% { transform: translateX(0); } 20% { transform: translateX(-4px); } 45% { transform: translateX(0); } 60% { transform: translateX(4px); } 85% { transform: translateX(0); } }
-@keyframes nina-cuchara { 0%,15% { transform: rotate(0); } 45%,62% { transform: rotate(67deg); } 85%,100% { transform: rotate(0); } }
-@keyframes nina-mastica { 0%,55% { transform: scaleY(1); } 65% { transform: scaleY(.6); } 72% { transform: scaleY(1.1); } 79% { transform: scaleY(.6); } 86%,100% { transform: scaleY(1); } }
+/* la cuchara: saca del tarro, sube a la boca, adentro, regresa */
+@keyframes nina-cuchara { 0%,12% { transform: rotate(0); } 40%,55% { transform: rotate(49deg); } 80%,100% { transform: rotate(0); } }
+/* boca: abierta mientras llega la cuchara, luego mastica */
+@keyframes nina-boca { 0%,28% { opacity: 1; transform: scaleY(1); } 30%,57% { opacity: 0; } 58% { opacity: 1; transform: scaleY(1); } 64% { transform: scaleY(.4); } 70% { transform: scaleY(1.15); } 76% { transform: scaleY(.4); } 82% { transform: scaleY(1.15); } 88%,100% { transform: scaleY(1); } }
+@keyframes nina-boca-abierta { 0%,28% { opacity: 0; transform: scale(.4); } 34% { opacity: 1; transform: scale(1); } 54% { opacity: 1; transform: scale(1); } 57%,100% { opacity: 0; transform: scale(.4); } }
+@keyframes nina-gota { 0% { opacity: 0; transform: translateY(0) scaleY(.6); } 6% { opacity: 1; transform: translateY(2px) scaleY(1); } 55% { opacity: 1; transform: translateY(140px) scaleY(1.3); } 60%,100% { opacity: 0; transform: translateY(146px) scaleY(.3); } }
+
+/* Viene la chancla: deja de comer y la ve venir */
+.nina.asustada .cabeza, .nina.asustada .brazo-cuchara, .nina.asustada .boca, .nina.asustada .boca-abierta { animation-play-state: paused; }
+.nina.asustada .ojos { animation: none; transform: translate(var(--ojo-x, 0px), -4px) scale(1.25); transition: transform .2s; }
+
+/* Fallaste: se burla */
+.nina.burla .boca, .nina.burla .boca-abierta { display: none; }
+.nina.burla .lengua { display: inline; }
+.nina.burla .ojos { animation: none; transform: scaleY(.45); }
+.nina.burla svg { animation: nina-burla .5s ease-in-out 2; }
+@keyframes nina-burla { 0%,100% { transform: rotate(0); } 25% { transform: rotate(-6deg) translateY(-6px); } 75% { transform: rotate(6deg) translateY(-6px); } }
 
 /* ¡Ay! */
 .nina.ay .cara-normal { display: none; }
 .nina.ay .cara-ay { display: inline; }
-.nina.ay .cabeza, .nina.ay .ojos, .nina.ay .boca { animation: none; }
+.nina.ay .cabeza, .nina.ay .ojos, .nina.ay .boca, .nina.ay .boca-abierta { animation: none; }
+.nina.ay .boca, .nina.ay .boca-abierta { display: none; }
 .nina.ay .brazo-cuchara { animation: none; transform: rotate(-40deg); transition: transform .12s; }
 .nina.ay svg { animation: nina-golpe .45s ease-out both; }
 @keyframes nina-golpe { 0% { transform: translate(0,0) rotate(0); } 15% { transform: translate(-7px,-16px) rotate(-6deg); } 35% { transform: translate(6px,-6px) rotate(5deg); } 55% { transform: translate(-4px,0) rotate(-3deg); } 100% { transform: none; } }
@@ -103,17 +122,31 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
   bottom: 0; transform-origin: 40% 100%;
   transform: translateY(105%);
 }
-.mama img { width: 100%; height: 100%; display: block; }
-.mama .mov { position: absolute; inset: 0; opacity: 0; }
+.mama svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.mama.der svg { transform: scaleX(-1); }
+.mama svg * { transform-box: view-box; }
+.mama .brazo { transform-origin: 312px 142px; }
+.mama .mov { opacity: 0; }
 .mama.izq { left: var(--mx); }
 .mama.der { right: var(--mx); }
-.mama.der img { transform: scaleX(-1); }
-.mama.entra { animation: mama-entra .5s cubic-bezier(.2,.9,.3,1) forwards; }
-.mama.entra .mov { animation: mama-mov .5s .28s ease-out; }
-.mama.sale-mama { animation: mama-sale .4s ease-in forwards; }
-@keyframes mama-entra { 0% { transform: translateY(105%) rotate(0); } 60% { transform: translateY(var(--my)) rotate(-4deg); } 80% { transform: translateY(var(--my)) rotate(3deg); } 100% { transform: translateY(var(--my)) rotate(0); } }
+.mama.entra { animation: mama-entra .45s cubic-bezier(.2,.9,.3,1) forwards; }
+/* impulso: el brazo se va para atrás (abajo) y luego lanza */
+.mama.entra .brazo { animation: mama-brazo 1.05s .3s cubic-bezier(.45,0,.2,1) both; }
+.mama.entra .cuerpo { transform-origin: 200px 557px; animation: mama-cuerpo 1.05s .3s cubic-bezier(.45,0,.2,1) both; }
+.mama.entra .mov { animation: mama-mov .5s .95s ease-out; }
+.mama.sale-mama { animation: mama-sale .45s ease-in forwards; }
+@keyframes mama-entra { from { transform: translateY(105%); } to { transform: translateY(var(--my)); } }
+@keyframes mama-brazo { 0% { transform: rotate(0); } 55% { transform: rotate(78deg); } 70% { transform: rotate(-22deg); } 82% { transform: rotate(-8deg); } 100% { transform: rotate(-4deg); } }
+@keyframes mama-cuerpo { 0% { transform: rotate(0); } 55% { transform: rotate(-5deg) translateX(-6px); } 72% { transform: rotate(4deg) translateX(6px); } 100% { transform: rotate(1deg); } }
 @keyframes mama-mov { 0%, 100% { opacity: 0; } 30% { opacity: 1; } }
 @keyframes mama-sale { from { transform: translateY(var(--my)); } to { transform: translateY(105%); } }
+
+.fallaste {
+  position: absolute; z-index: 4; pointer-events: none;
+  font-family: var(--display); text-transform: uppercase; font-size: clamp(22px, 4.5vmin, 40px); color: var(--verde-oscuro);
+  transform: translate(-50%, -50%) rotate(-6deg); animation: fallaste 1.4s ease-out forwards;
+}
+@keyframes fallaste { 0% { opacity: 0; transform: translate(-50%,-30%) rotate(-6deg) scale(.6); } 15% { opacity: 1; transform: translate(-50%,-50%) rotate(-6deg) scale(1.05); } 75% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%,-70%) rotate(-6deg); } }
 
 .chancla-vuela { position: absolute; z-index: 4; left: 0; top: 0; pointer-events: none; will-change: transform; }
 .chancla-vuela img { width: 100%; height: auto; display: block; }
