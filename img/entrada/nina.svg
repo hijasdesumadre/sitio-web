@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 300">
+  <!-- La traviesa. Rojo sólido + piel/vidrio en crema, como el grabado de la mamá. -->
+  <defs>
+    <filter id="grabado" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="1.3" numOctaves="1" seed="7"/>
+      <feDisplacementMap in="SourceGraphic" scale="1.3"/>
+    </filter>
+  </defs>
+  <g filter="url(#grabado)" stroke-linejoin="round" stroke-linecap="round">
+
+    <!-- piernas -->
+    <g class="pierna pierna-izq">
+      <path d="M101 236 L99 272" stroke="#B93B20" stroke-width="15"/>
+      <path d="M101 236 L99 268" stroke="#F2E6D3" stroke-width="8"/>
+      <path d="M85 279 Q86 268 100 268 Q109 269 110 279 Z" fill="#B93B20"/>
+    </g>
+    <g class="pierna pierna-der">
+      <path d="M139 236 L141 272" stroke="#B93B20" stroke-width="15"/>
+      <path d="M139 236 L141 268" stroke="#F2E6D3" stroke-width="8"/>
+      <path d="M130 279 Q131 269 140 268 Q154 268 155 279 Z" fill="#B93B20"/>
+    </g>
+    <path d="M70 290 Q120 284 170 290" stroke="#B93B20" stroke-width="2.5" fill="none" stroke-dasharray="14 7 22 6"/>
+
+    <!-- vestido -->
+    <path d="M86 148 Q120 138 154 148 L176 238 Q120 252 64 238 Z" fill="#B93B20"/>
+    <g stroke="#F2E6D3" stroke-width="2" fill="none">
+      <path d="M100 152 Q120 160 140 152"/>
+      <path d="M150 178 l10 26 M156 175 l8 18 M84 200 l-6 20 M90 206 l-4 14"/>
+      <path d="M72 232 Q120 244 168 232" stroke-dasharray="3 5"/>
+    </g>
+    <g fill="#F2E6D3"><circle cx="112" cy="196" r="2.4"/><circle cx="130" cy="214" r="2.4"/><circle cx="124" cy="180" r="2"/><circle cx="104" cy="226" r="2.2"/><circle cx="146" cy="226" r="2"/></g>
+
+    <!-- brazo con el tarro -->
+    <g class="brazo-tarro">
+      <path d="M90 156 Q76 178 92 202" stroke="#B93B20" stroke-width="18" fill="none"/>
+      <path d="M90 156 Q76 178 92 202" stroke="#F2E6D3" stroke-width="10" fill="none"/>
+      <!-- tarro -->
+      <rect x="80" y="179" width="48" height="59" rx="9" fill="#F2E6D3"/>
+      <rect x="84" y="190" width="40" height="44" rx="7" fill="#F2E6D3" stroke="#B93B20" stroke-width="3.5"/>
+      <path d="M87 206 h34 v20 q0 6 -6 6 h-22 q-6 0 -6 -6 Z" fill="#B93B20"/>
+      <rect x="88" y="210" width="32" height="13" fill="#F2E6D3" stroke="#B93B20" stroke-width="1.5"/>
+      <path d="M92 214 h24 M95 219 h18" stroke="#B93B20" stroke-width="1.6"/>
+      <rect x="82" y="183" width="44" height="9" rx="2.5" fill="#B93B20"/>
+      <path d="M86 186 h36" stroke="#F2E6D3" stroke-width="1.2" stroke-dasharray="4 3"/>
+      <circle cx="92" cy="208" r="8" fill="#F2E6D3" stroke="#B93B20" stroke-width="3.5"/>
+    </g>
+
+    <!-- cabeza -->
+    <g class="cabeza">
+      <!-- coletas -->
+      <circle cx="76" cy="98" r="16" fill="#B93B20"/>
+      <circle cx="164" cy="98" r="16" fill="#B93B20"/>
+      <path d="M70 92 l10 8 M68 102 l9 4 M170 92 l-10 8 M172 102 l-9 4" stroke="#F2E6D3" stroke-width="1.8"/>
+      <path d="M86 86 l-9 -9 l-3 10 Z M154 86 l9 -9 l3 10 Z" fill="#B93B20" stroke="#F2E6D3" stroke-width="1.4"/>
+      <!-- cara -->
+      <circle cx="120" cy="106" r="35" fill="#F2E6D3" stroke="#B93B20" stroke-width="4"/>
+      <!-- fleco -->
+      <path d="M86 98 Q88 66 120 66 Q152 66 154 98 Q146 86 136 88 Q128 78 120 88 Q110 78 102 90 Q94 86 86 98 Z" fill="#B93B20"/>
+      <path d="M100 74 l6 6 M114 70 l3 7 M130 71 l-2 7 M142 76 l-5 6" stroke="#F2E6D3" stroke-width="1.6"/>
+      <!-- cachetes -->
+      <path d="M95 118 l5 -3 M97 122 l5 -3 M139 118 l5 3 M137 122 l5 3" stroke="#B93B20" stroke-width="1.6"/>
+      <!-- cara normal: ojos que se mueven, cejas de traviesa, sonrisa chueca -->
+      <g class="cara-normal">
+        <path d="M101 97 l11 3 M139 97 l-11 3" stroke="#B93B20" stroke-width="3"/>
+        <g class="ojos" fill="#B93B20">
+          <ellipse cx="108" cy="108" rx="3.6" ry="4.6"/>
+          <ellipse cx="132" cy="108" rx="3.6" ry="4.6"/>
+        </g>
+        <g class="boca">
+          <path d="M109 124 Q122 132 134 121" stroke="#B93B20" stroke-width="3" fill="none"/>
+          <path d="M131 124 q4 3 2 7 q-3 -1 -2 -7 Z" fill="#B93B20"/>
+        </g>
+      </g>
+      <!-- cara de ¡ay! -->
+      <g class="cara-ay" stroke="#B93B20" stroke-width="3" fill="none">
+        <path d="M102 102 l9 5 l-9 5 M138 102 l-9 5 l9 5"/>
+        <ellipse cx="120" cy="126" rx="6" ry="7" fill="#B93B20"/>
+        <path d="M150 74 q8 -6 12 2 M156 66 q8 -4 10 4" stroke-width="2"/>
+      </g>
+    </g>
+
+    <!-- brazo con la cuchara (gira desde el hombro: tarro → boca) -->
+    <g class="brazo-cuchara">
+      <path d="M150 156 Q150 176 128 188" stroke="#B93B20" stroke-width="18" fill="none"/>
+      <path d="M150 156 Q150 176 128 188" stroke="#F2E6D3" stroke-width="10" fill="none"/>
+      <path d="M126 189 L100 174" stroke="#F2E6D3" stroke-width="9"/>
+      <path d="M126 189 L100 174" stroke="#B93B20" stroke-width="4"/>
+      <ellipse cx="96" cy="171" rx="10" ry="6.5" transform="rotate(30 96 171)" fill="#B93B20" stroke="#F2E6D3" stroke-width="3"/>
+      <ellipse cx="95" cy="170" rx="4" ry="2.2" transform="rotate(30 95 170)" fill="#F2E6D3"/>
+      <circle cx="127" cy="189" r="7.5" fill="#F2E6D3" stroke="#B93B20" stroke-width="3.5"/>
+    </g>
+  </g>
+</svg>

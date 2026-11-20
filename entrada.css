@@ -1,0 +1,121 @@
+/* Entrada: "Para entrar, regaña a esta traviesa". Se muestra una vez por visita en la tienda. */
+html.sin-entrada .entrada { display: none !important; }
+html.con-entrada, html.con-entrada body { overflow: hidden; }
+
+.entrada {
+  position: fixed; inset: 0; z-index: 100;
+  background: var(--crema);
+  overflow: hidden;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke="%23B93B20" stroke-width="2.4"><circle cx="16" cy="16" r="12.5"/><circle cx="16" cy="16" r="6.5"/><path d="M16 0v7M16 25v7M0 16h7M25 16h7"/></g><circle cx="16" cy="16" r="2.2" fill="%23B93B20"/></svg>') 16 16, crosshair;
+  touch-action: manipulation;
+  -webkit-user-select: none; user-select: none;
+  transition: opacity .55s ease, transform .55s cubic-bezier(.7,0,.3,1);
+}
+.entrada.sale { opacity: 0; transform: translateY(-6%); pointer-events: none; }
+
+.entrada-titulo {
+  position: absolute; left: 0; right: 0;
+  top: max(6vh, calc(env(safe-area-inset-top, 0px) + 20px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  text-align: center; margin: 0;
+  font-family: var(--display); font-weight: 400; text-transform: uppercase;
+  font-size: clamp(28px, 6vw, 72px); line-height: 1; letter-spacing: 0.01em;
+  color: var(--verde-oscuro);
+  text-wrap: balance;
+  pointer-events: none;
+}
+.entrada-titulo span { color: var(--rojo); display: block; }
+.entrada-pista {
+  position: absolute; left: 0; right: 0; top: calc(max(6vh, calc(env(safe-area-inset-top, 0px) + 20px)) + clamp(64px, 13vw, 156px));
+  text-align: center; margin: 0; pointer-events: none;
+  font-family: var(--label); text-transform: uppercase; letter-spacing: 0.12em; font-size: 14px; color: var(--gris);
+  animation: entrada-parpadeo 1.6s ease-in-out infinite;
+}
+@keyframes entrada-parpadeo { 50% { opacity: .35; } }
+.entrada.tirando .entrada-pista, .entrada.tirando .entrada-titulo { opacity: 0; animation: none; transition: opacity .25s; }
+
+.entrada-saltar {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  background: none; border: 0; padding: 8px 12px;
+  font-family: var(--label); text-transform: uppercase; letter-spacing: 0.08em; font-size: 14px;
+  color: var(--gris); text-decoration: underline; text-underline-offset: 4px;
+  background: var(--crema); border-radius: 999px; padding: 8px 16px;
+  cursor: pointer; z-index: 5;
+}
+
+/* La niña */
+.nina {
+  position: absolute; left: 50%; top: 58%;
+  width: min(58vmin, 360px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.nina svg { display: block; width: 100%; height: auto; overflow: visible; }
+.nina svg * { transform-box: view-box; }
+.nina .cara-ay { display: none; }
+.nina .cabeza { transform-origin: 120px 140px; animation: nina-cabeza 3.2s ease-in-out infinite; }
+.nina .ojos { animation: nina-ojos 3.2s steps(1, end) infinite; }
+.nina .brazo-cuchara { transform-origin: 150px 156px; animation: nina-cuchara 2s cubic-bezier(.5,0,.3,1) infinite; }
+.nina .boca { transform-origin: 122px 126px; animation: nina-mastica 2s ease-in-out infinite; }
+.nina .cuerpo-todo { animation: nina-rebote 2s ease-in-out infinite; }
+
+@keyframes nina-cabeza { 0%,100% { transform: rotate(0); } 20%,40% { transform: rotate(-5deg); } 60%,80% { transform: rotate(5deg); } }
+@keyframes nina-ojos { 0% { transform: translateX(0); } 20% { transform: translateX(-4px); } 45% { transform: translateX(0); } 60% { transform: translateX(4px); } 85% { transform: translateX(0); } }
+@keyframes nina-cuchara { 0%,15% { transform: rotate(0); } 45%,62% { transform: rotate(67deg); } 85%,100% { transform: rotate(0); } }
+@keyframes nina-mastica { 0%,55% { transform: scaleY(1); } 65% { transform: scaleY(.6); } 72% { transform: scaleY(1.1); } 79% { transform: scaleY(.6); } 86%,100% { transform: scaleY(1); } }
+
+/* ¡Ay! */
+.nina.ay .cara-normal { display: none; }
+.nina.ay .cara-ay { display: inline; }
+.nina.ay .cabeza, .nina.ay .ojos, .nina.ay .boca { animation: none; }
+.nina.ay .brazo-cuchara { animation: none; transform: rotate(-40deg); transition: transform .12s; }
+.nina.ay svg { animation: nina-golpe .45s ease-out both; }
+@keyframes nina-golpe { 0% { transform: translate(0,0) rotate(0); } 15% { transform: translate(-7px,-16px) rotate(-6deg); } 35% { transform: translate(6px,-6px) rotate(5deg); } 55% { transform: translate(-4px,0) rotate(-3deg); } 100% { transform: none; } }
+
+/* Corre */
+.nina.corre { transition: left .75s cubic-bezier(.5,0,.8,.4); }
+.nina.corre svg { animation: nina-corre-cuerpo .18s ease-in-out infinite alternate; }
+.nina.corre .pierna-izq { transform-origin: 101px 236px; animation: nina-pierna .18s linear infinite alternate; }
+.nina.corre .pierna-der { transform-origin: 139px 236px; animation: nina-pierna .18s linear infinite alternate-reverse; }
+.nina.corre.a-la-izq svg { --lean: -10deg; }
+.nina.corre svg { --lean: 10deg; }
+@keyframes nina-corre-cuerpo { from { transform: rotate(var(--lean)) translateY(0); } to { transform: rotate(var(--lean)) translateY(-8px); } }
+@keyframes nina-pierna { from { transform: rotate(-28deg); } to { transform: rotate(28deg); } }
+
+.burbuja {
+  position: absolute; z-index: 4; pointer-events: none;
+  font-family: var(--display); font-size: clamp(30px, 6vmin, 56px); color: var(--rojo);
+  transform: translate(-50%, -100%) scale(0) rotate(-10deg); opacity: 0;
+}
+.burbuja.ve { animation: burbuja .7s cubic-bezier(.2,1.6,.4,1) forwards; }
+@keyframes burbuja { 0% { transform: translate(-50%,-100%) scale(0) rotate(-10deg); opacity: 0; } 30% { opacity: 1; } 100% { transform: translate(-50%,-130%) scale(1) rotate(-10deg); opacity: 1; } }
+
+.polvo { position: absolute; z-index: 2; width: 70px; height: 40px; pointer-events: none; }
+.polvo i { position: absolute; height: 3px; background: var(--rojo); border-radius: 2px; animation: polvo .5s ease-out forwards; }
+@keyframes polvo { to { transform: translateX(var(--dx)); opacity: 0; } }
+
+/* La mamá (de espaldas, en primer plano) */
+.mama {
+  position: absolute; z-index: 3; pointer-events: none;
+  height: min(88vh, 150vw); width: auto; aspect-ratio: 475 / 524;
+  bottom: 0; transform-origin: 40% 100%;
+  transform: translateY(105%);
+}
+.mama img { width: 100%; height: 100%; display: block; }
+.mama .mov { position: absolute; inset: 0; opacity: 0; }
+.mama.izq { left: var(--mx); }
+.mama.der { right: var(--mx); }
+.mama.der img { transform: scaleX(-1); }
+.mama.entra { animation: mama-entra .5s cubic-bezier(.2,.9,.3,1) forwards; }
+.mama.entra .mov { animation: mama-mov .5s .28s ease-out; }
+.mama.sale-mama { animation: mama-sale .4s ease-in forwards; }
+@keyframes mama-entra { 0% { transform: translateY(105%) rotate(0); } 60% { transform: translateY(var(--my)) rotate(-4deg); } 80% { transform: translateY(var(--my)) rotate(3deg); } 100% { transform: translateY(var(--my)) rotate(0); } }
+@keyframes mama-mov { 0%, 100% { opacity: 0; } 30% { opacity: 1; } }
+@keyframes mama-sale { from { transform: translateY(var(--my)); } to { transform: translateY(105%); } }
+
+.chancla-vuela { position: absolute; z-index: 4; left: 0; top: 0; pointer-events: none; will-change: transform; }
+.chancla-vuela img { width: 100%; height: auto; display: block; }
+
+@media (prefers-reduced-motion: reduce) { .entrada { display: none !important; } }
