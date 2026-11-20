@@ -121,7 +121,7 @@
         return '<tr class="n' + r[3] + '"><td>' + esc(r[0]) + "</td><td>" + fmt(porEnv) + " " + r[2] + "</td><td>" + fmt(porPor) + " " + r[2] + "</td></tr>";
       };
       document.getElementById("ficha-in").innerHTML =
-        '<div class="ficha-foto">' + (p.imagen ? '<img src="' + esc(p.imagen) + '" alt="' + esc(p.nombre) + '">' : "") + "</div>" +
+        '<div class="ficha-foto"><img class="ficha-chancla" src="img/mano-chancla.webp" alt="">' + (p.imagen ? '<img class="ficha-tarro" src="' + esc(p.imagen) + '" alt="' + esc(p.nombre) + '">' : "") + "</div>" +
         '<div class="ficha-txt">' +
           '<h2 id="ficha-t">' + esc(p.nombre) + "</h2>" +
           '<div class="ficha-tam">' + esc(p.tamano) + "</div>" +
