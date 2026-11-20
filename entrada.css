@@ -13,27 +13,30 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
 }
 .entrada.sale { opacity: 0; transform: translateY(-6%); pointer-events: none; }
 
-.entrada-titulo {
+.entrada-cabeza {
   position: absolute; left: 0; right: 0;
-  top: max(6vh, calc(env(safe-area-inset-top, 0px) + 20px));
+  top: max(9vh, calc(env(safe-area-inset-top, 0px) + 28px));
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
-  text-align: center; margin: 0;
+  display: flex; flex-direction: column; align-items: center; gap: clamp(10px, 1.8vh, 18px);
+  text-align: center; pointer-events: none;
+}
+.entrada-logo { display: block; height: clamp(64px, 12vh, 124px); width: auto; }
+.entrada-titulo {
+  margin: 0;
   font-family: var(--display); font-weight: 400; text-transform: uppercase;
-  font-size: clamp(28px, 6vw, 72px); line-height: 1; letter-spacing: 0.01em;
+  font-size: clamp(28px, min(5.4vw, 8vh), 66px); line-height: 1; letter-spacing: 0.01em;
   color: var(--verde-oscuro);
   text-wrap: balance;
-  pointer-events: none;
 }
 .entrada-titulo span { color: var(--rojo); display: block; }
 .entrada-pista {
-  position: absolute; left: 0; right: 0; top: calc(max(6vh, calc(env(safe-area-inset-top, 0px) + 20px)) + clamp(64px, 13vw, 156px));
-  text-align: center; margin: 0; pointer-events: none;
-  font-family: var(--label); text-transform: uppercase; letter-spacing: 0.14em; font-size: 15px; color: var(--gris);
+  margin: 0;
+  font-family: var(--label); text-transform: uppercase; letter-spacing: 0.14em; font-size: clamp(20px, 2.2vw, 26px); color: var(--gris);
   animation: entrada-parpadeo 2.4s ease-in-out infinite;
 }
 @keyframes entrada-parpadeo { 50% { opacity: .5; } }
-.entrada.tirando .entrada-pista, .entrada.tirando .entrada-titulo { opacity: 0; animation: none; transition: opacity .25s; }
+.entrada.tirando .entrada-pista, .entrada.tirando .entrada-titulo, .entrada.tirando .entrada-logo { opacity: 0; animation: none; transition: opacity .25s; }
 
 .entrada-saltar {
   position: absolute; left: 50%; transform: translateX(-50%);
@@ -47,11 +50,12 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
 
 /* La niña */
 .nina {
-  position: absolute; left: 50%; top: 58%;
-  width: min(58vmin, 360px);
+  position: absolute; left: 50%; top: 66%;
+  width: min(50vmin, 340px, 40vh);
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
+@media (max-width: 600px) { .nina { width: min(62vw, 300px, 36vh); top: 67%; } }
 .nina svg { display: block; width: 100%; height: auto; overflow: visible; }
 .nina svg * { transform-box: view-box; }
 .nina .cara-ay, .nina .lengua, .nina .cejas-preocupada, .nina .boca-preocupada { display: none; }

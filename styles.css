@@ -70,7 +70,7 @@ a { color: inherit; }
   text-decoration: none;
   color: var(--rojo);
 }
-.logo .logo-img { height: 64px; width: auto; transform: rotate(-8deg); }
+.logo .logo-img { height: 76px; width: auto; }
 .logo .logo-txt {
   font-family: var(--label);
   font-size: 20px;
@@ -109,7 +109,7 @@ a { color: inherit; }
 }
 @media (max-width: 760px) {
   .site-header .wrap { gap: 0; }
-  .logo .logo-img { height: 54px; }
+  .logo .logo-img { height: 58px; }
   .logo .logo-txt { font-size: 17px; }
   .nav-toggle { display: inline-block; }
   .nav {
