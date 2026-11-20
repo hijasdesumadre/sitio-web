@@ -62,7 +62,7 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
 .nina .boca { transform-origin: 120px 127px; animation: nina-boca 2s linear infinite; }
 .nina .boca-abierta { transform-origin: 109px 126px; animation: nina-boca-abierta 2s linear infinite; }
 .nina .gota { animation: nina-gota 2s ease-in infinite; opacity: 0; }
-.nina .g1 { animation-delay: 1.15s; } .nina .g2 { animation-delay: 1.5s; } .nina .g3 { animation-delay: .35s; } .nina .g4 { animation-delay: .9s; animation-duration: 2.6s; }
+.nina .g3 { animation-delay: .35s; } .nina .g4 { animation-delay: .9s; animation-duration: 2.6s; } .nina .g5 { animation-delay: 1.4s; animation-duration: 2.3s; }
 
 @keyframes nina-cabeza { 0%,100% { transform: rotate(0); } 20%,40% { transform: rotate(-5deg); } 60%,80% { transform: rotate(5deg); } }
 @keyframes nina-ojos { 0% { transform: translateX(0); } 20% { transform: translateX(-4px); } 45% { transform: translateX(0); } 60% { transform: translateX(4px); } 85% { transform: translateX(0); } }
@@ -136,7 +136,7 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
 .mama.entra .mov { animation: mama-mov .5s .95s ease-out; }
 .mama.sale-mama { animation: mama-sale .45s ease-in forwards; }
 @keyframes mama-entra { from { transform: translateY(105%); } to { transform: translateY(var(--my)); } }
-@keyframes mama-brazo { 0% { transform: rotate(0); } 55% { transform: rotate(78deg); } 70% { transform: rotate(-22deg); } 82% { transform: rotate(-8deg); } 100% { transform: rotate(-4deg); } }
+@keyframes mama-brazo { 0% { transform: rotate(0); } 55% { transform: rotate(-75deg); } 70% { transform: rotate(22deg); } 82% { transform: rotate(8deg); } 100% { transform: rotate(4deg); } }
 @keyframes mama-cuerpo { 0% { transform: rotate(0); } 55% { transform: rotate(-5deg) translateX(-6px); } 72% { transform: rotate(4deg) translateX(6px); } 100% { transform: rotate(1deg); } }
 @keyframes mama-mov { 0%, 100% { opacity: 0; } 30% { opacity: 1; } }
 @keyframes mama-sale { from { transform: translateY(var(--my)); } to { transform: translateY(105%); } }
