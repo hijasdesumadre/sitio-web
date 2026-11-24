@@ -48,7 +48,7 @@
   /* ---- Botón de compra: agrega al carrito ---- */
   function buyButton(p, extraClass) {
     if (p.agotado || !p.precio) {
-      return '<button class="btn agotado ' + (extraClass || "") + '" type="button" disabled>Agotado</button>';
+      return '<button class="btn agotado ' + (extraClass || "") + '" type="button" disabled>Sold out</button>';
     }
     return '<button class="btn ' + (extraClass || "") + '" type="button" data-add="' + esc(p.id) + '">Agregar</button>';
   }
@@ -62,14 +62,14 @@
         ? '<img src="' + esc(p.imagen) + '" alt="' + esc(p.nombre) + '" style="--escala:' + (p.escala || 1) + '">'
         : '<div class="ph">' + esc(p.nombre) + "</div>";
       return (
-        '<article class="product" id="p-' + esc(p.id) + '">' +
-          '<button class="product-media" type="button" data-ficha="' + esc(p.id) + '" aria-label="Ver ' + esc(p.nombre) + '">' + media + "</button>" +
+        '<article class="product' + (p.agotado ? " is-agotado" : "") + '" id="p-' + esc(p.id) + '">' +
+          '<button class="product-media" type="button" data-ficha="' + esc(p.id) + '" aria-label="Ver ' + esc(p.nombre) + '">' + media + (p.agotado ? '<span class="sello-soldout">Sold out</span>' : "") + "</button>" +
           '<div class="product-body">' +
             '<h2><button type="button" class="ficha-link" data-ficha="' + esc(p.id) + '">' + esc(p.nombre) + "</button></h2>" +
             '<div class="size">' + esc(p.tamano) + "</div>" +
             '<p class="desc">' + esc(p.descripcion) + "</p>" +
             '<div class="row">' +
-              '<div class="price">' + (p.precio ? mxn(p.precio) + "<small>MXN</small>" : "<small>Precio pendiente</small>") + "</div>" +
+              '<div class="price">' + (p.agotado ? "" : p.precio ? mxn(p.precio) + "<small>MXN</small>" : "<small>Precio pendiente</small>") + "</div>" +
               buyButton(p) +
             "</div>" +
           "</div>" +

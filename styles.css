@@ -697,3 +697,14 @@ a, button, label, select, summary, [role="button"], [data-ficha], [data-add], .o
   cursor: image-set(url("img/cursor-chancla.png") 1x, url("img/cursor-chancla@2x.png") 2x) 3 3, pointer;
 }
 button:disabled, .btn.agotado { cursor: not-allowed; }
+
+/* Sold out */
+.product-media { position: relative; }
+.product.is-agotado .product-media img, .product.is-agotado .product-media .ph { opacity: .55; filter: grayscale(.35); }
+.sello-soldout {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-8deg);
+  font-family: var(--display); text-transform: uppercase; letter-spacing: .04em;
+  font-size: clamp(26px, 3.4vw, 40px); line-height: 1; color: var(--rojo);
+  border: 3px solid var(--rojo); border-radius: 6px; padding: 10px 16px 6px;
+  background: rgba(242, 230, 211, .85); pointer-events: none; white-space: nowrap;
+}

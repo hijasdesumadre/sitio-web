@@ -134,10 +134,10 @@ window.HDSM = {
     {
       id: "kit",
       nombre: "El Kit",
-      tamano: "PENDIENTE: qué incluye",
+      tamano: "Vuelve pronto",                 // PENDIENTE: qué incluye
       precio: 0,                             // PENDIENTE: precio
       descripcion: "Para regalar. O para quedártelo; no juzgamos.",
-      agotado: true,                         // true = botón "Agotado" en lugar de "Comprar"
+      agotado: true,                         // true = sello y botón "Sold out"
       imagen: ""
     }
   ],
