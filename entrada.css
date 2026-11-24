@@ -64,7 +64,6 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
 .nina .brazo-cuchara { transform-origin: 150px 156px; animation: nina-cuchara 2s cubic-bezier(.5,0,.3,1) infinite; }
 .nina .boca { transform-origin: 120px 127px; animation: nina-boca 2s linear infinite; }
 .nina .boca-abierta { transform-origin: 109px 126px; animation: nina-boca-abierta 2s linear infinite; }
-.nina .gota { animation: nina-gota 2s ease-in infinite; opacity: 0; }
 .nina .g3 { animation-delay: .35s; } .nina .g4 { animation-delay: .9s; animation-duration: 2.6s; } .nina .g5 { animation-delay: 1.4s; animation-duration: 2.3s; }
 
 @keyframes nina-cabeza { 0%,100% { transform: rotate(0); } 20%,40% { transform: rotate(-5deg); } 60%,80% { transform: rotate(5deg); } }
@@ -74,7 +73,6 @@ html.con-entrada, html.con-entrada body { overflow: hidden; }
 /* boca: abierta mientras llega la cuchara, luego mastica */
 @keyframes nina-boca { 0%,28% { opacity: 1; transform: scaleY(1); } 30%,57% { opacity: 0; } 58% { opacity: 1; transform: scaleY(1); } 64% { transform: scaleY(.4); } 70% { transform: scaleY(1.15); } 76% { transform: scaleY(.4); } 82% { transform: scaleY(1.15); } 88%,100% { transform: scaleY(1); } }
 @keyframes nina-boca-abierta { 0%,28% { opacity: 0; transform: scale(.4); } 34% { opacity: 1; transform: scale(1); } 54% { opacity: 1; transform: scale(1); } 57%,100% { opacity: 0; transform: scale(.4); } }
-@keyframes nina-gota { 0% { opacity: 0; transform: translateY(0) scaleY(.6); } 6% { opacity: 1; transform: translateY(2px) scaleY(1); } 55% { opacity: 1; transform: translateY(140px) scaleY(1.3); } 60%,100% { opacity: 0; transform: translateY(146px) scaleY(.3); } }
 
 /* Ve venir a mamá: deja de comer, ojos de plato, boquita de "o" y tiembla */
 .nina.asustada .cabeza, .nina.asustada .brazo-cuchara, .nina.asustada .boca, .nina.asustada .boca-abierta { animation-play-state: paused; }
